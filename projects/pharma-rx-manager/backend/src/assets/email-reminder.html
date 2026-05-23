@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prescription Refill Reminder</title>
+  <style>
+    body { margin: 0; padding: 0; background: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .wrapper { max-width: 560px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e4e4e7; }
+    .header { background: {{ACCENT_COLOUR}}; padding: 24px 32px; display: flex; align-items: center; gap: 16px; }
+    .header-logo { width: 40px; height: 40px; border-radius: 6px; object-fit: contain; background: rgba(255,255,255,0.15); }
+    .header-logo-placeholder { width: 40px; height: 40px; border-radius: 6px; background: rgba(255,255,255,0.2); }
+    .header h1 { margin: 0; color: #ffffff; font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
+    .body { padding: 32px; }
+    .body p { margin: 0 0 16px; color: #374151; font-size: 15px; line-height: 1.6; }
+    .card { background: #f8faff; border-left: 4px solid {{ACCENT_COLOUR}}; border-radius: 0 6px 6px 0; padding: 16px 20px; margin: 24px 0; }
+    .card p { margin: 0; }
+    .card .label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; font-weight: 600; }
+    .card .value { font-size: 20px; font-weight: 700; color: {{ACCENT_COLOUR}}; margin-top: 4px; }
+    .card .sub { font-size: 13px; color: #4b5563; margin-top: 4px; }
+    .days-badge { display: inline-block; background: {{ACCENT_COLOUR}}; color: #fff; font-size: 13px; font-weight: 700; border-radius: 20px; padding: 4px 14px; margin-bottom: 16px; }
+    .footer { border-top: 1px solid #e4e4e7; padding: 20px 32px; background: #f9fafb; }
+    .footer p { margin: 0; font-size: 12px; color: #9ca3af; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      {{LOGO_URL}}
+      <h1>{{PHARMACY_NAME}}</h1>
+    </div>
+    <div class="body">
+      <p>Hello {{CLIENT_NAME}},</p>
+      <div class="days-badge">{{DAYS_LEFT}} day(s) remaining</div>
+      <p>
+        This is a reminder from <strong>{{PHARMACY_NAME}}</strong> that your medication
+        supply is running low and needs to be refilled soon.
+      </p>
+
+      <div class="card">
+        <p class="label">Medication</p>
+        <p class="value">{{MEDICATION_NAME}}</p>
+        <p class="sub">Estimated supply end: <strong>{{END_DATE}}</strong></p>
+      </div>
+
+      <p>
+        To avoid a gap in your medication, please contact us before your supply runs out.
+        You can reach your pharmacy at <strong>{{BRANCH_PHONE}}</strong>.
+      </p>
+      <p>
+        If you have any questions or need to arrange a pickup, our team is here to help.
+      </p>
+      <p>
+        Thank you for choosing <strong>{{PHARMACY_NAME}}</strong>.
+      </p>
+    </div>
+    <div class="footer">
+      <p>
+        You received this message because you consented to email reminders from {{PHARMACY_NAME}}.<br />
+        To unsubscribe, please speak to your pharmacist or contact us at {{BRANCH_EMAIL}}.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

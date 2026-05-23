@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en"
+  data-composition-id="health-stat-reveal"
+  data-width="1080"
+  data-height="1920"
+  data-duration="9.5">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Stat Reveal — Brothers</title>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 1080×1920 canvas — scales to fit any viewport */
+    .stage {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      transform-origin: top left;
+      background: #0a0a0a;
+    }
+
+    /* ── Persistent elements ── */
+
+    #accent-top {
+      position: absolute;
+      top: 72px;
+      left: 80px;
+      right: 80px;
+      height: 4px;
+      background: #D4AF37;
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    #accent-bottom {
+      position: absolute;
+      bottom: 72px;
+      left: 80px;
+      right: 80px;
+      height: 2px;
+      background: rgba(212, 175, 55, 0.3);
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    /* ── Scene 1: Hook ── */
+
+    #scene-hook {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+    }
+
+    #hook-eyebrow {
+      position: absolute;
+      top: 360px;
+      left: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: #D4AF37;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    #hook-brothers {
+      position: absolute;
+      top: 410px;
+      left: 80px;
+      font-family: 'Arial Black', 'Impact', sans-serif;
+      font-size: 128px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+      color: #D4AF37;
+      text-transform: uppercase;
+      line-height: 1;
+      opacity: 0;
+    }
+
+    #hook-hear {
+      position: absolute;
+      top: 555px;
+      left: 82px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 80px;
+      font-weight: 700;
+      font-style: italic;
+      color: #FFFFFF;
+      line-height: 1.2;
+      opacity: 0;
+    }
+
+    #hook-rule {
+      position: absolute;
+      top: 680px;
+      left: 80px;
+      width: 100px;
+      height: 4px;
+      background: #D4AF37;
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    /* ── Scene 2: Stat ── */
+
+    #scene-stat {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    #stat-eyebrow {
+      position: absolute;
+      top: 300px;
+      left: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: #D4AF37;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    #stat-number {
+      position: absolute;
+      top: 330px;
+      left: 60px;
+      font-family: 'Arial Black', 'Impact', sans-serif;
+      font-size: 340px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 0.82;
+      letter-spacing: -0.04em;
+      opacity: 0;
+    }
+
+    #stat-in-3 {
+      position: absolute;
+      top: 620px;
+      left: 80px;
+      font-family: 'Arial Black', sans-serif;
+      font-size: 110px;
+      font-weight: 900;
+      color: #D4AF37;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      opacity: 0;
+    }
+
+    #stat-body {
+      position: absolute;
+      top: 790px;
+      left: 80px;
+      right: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 52px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.35;
+      opacity: 0;
+    }
+
+    #stat-highlight {
+      color: #FFFFFF;
+      font-weight: 900;
+    }
+
+    #stat-rule {
+      position: absolute;
+      top: 1090px;
+      left: 80px;
+      width: 60px;
+      height: 4px;
+      background: #D4AF37;
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+
+    #stat-source {
+      position: absolute;
+      top: 1120px;
+      left: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.35);
+      opacity: 0;
+    }
+
+    /* ── Scene 3: CTA ── */
+
+    #scene-cta {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+    }
+
+    #cta-tag {
+      position: absolute;
+      top: 580px;
+      left: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: #D4AF37;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    #cta-heading {
+      position: absolute;
+      top: 630px;
+      left: 80px;
+      right: 80px;
+      font-family: 'Arial Black', 'Impact', sans-serif;
+      font-size: 112px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.0;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      opacity: 0;
+    }
+
+    #cta-heading span { color: #D4AF37; }
+
+    #cta-sub {
+      position: absolute;
+      top: 990px;
+      left: 80px;
+      right: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.55;
+      opacity: 0;
+    }
+
+    #cta-brand {
+      position: absolute;
+      bottom: 140px;
+      left: 80px;
+      font-family: 'Arial', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #D4AF37;
+      text-transform: uppercase;
+      opacity: 0;
+    }
+
+    #cta-brand::before {
+      content: '';
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #D4AF37;
+      margin-right: 14px;
+      vertical-align: middle;
+      position: relative;
+      top: -2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage">
+
+    <!-- Persistent chrome -->
+    <div id="accent-top"></div>
+    <div id="accent-bottom"></div>
+
+    <!-- Scene 1: Hook (0–3s) -->
+    <div id="scene-hook">
+      <div id="hook-eyebrow">For African Men 35+</div>
+      <div id="hook-brothers">Brothers,</div>
+      <div id="hook-hear">Hear this.</div>
+      <div id="hook-rule"></div>
+    </div>
+
+    <!-- Scene 2: Stat (3–7.5s) -->
+    <div id="scene-stat">
+      <div id="stat-eyebrow">The reality</div>
+      <div id="stat-number">1</div>
+      <div id="stat-in-3">in 3</div>
+      <div id="stat-body">
+        Black men over 35<br>
+        <span id="stat-highlight">has HIGH<br>BLOOD PRESSURE</span>
+      </div>
+      <div id="stat-rule"></div>
+      <div id="stat-source">Source: American Heart Association, 2023</div>
+    </div>
+
+    <!-- Scene 3: CTA (7.5–9.5s) -->
+    <div id="scene-cta">
+      <div id="cta-tag">Take action</div>
+      <div id="cta-heading">Know your<br><span>numbers.</span></div>
+      <div id="cta-sub">Talk to your doctor.<br>Share this with a brother.</div>
+      <div id="cta-brand">For African Men 35+</div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Scale stage to fit viewport ──
+    function scaleStage() {
+      const stage = document.getElementById('stage');
+      const scaleX = window.innerWidth  / 1080;
+      const scaleY = window.innerHeight / 1920;
+      const scale  = Math.min(scaleX, scaleY);
+      const offsetX = (window.innerWidth  - 1080 * scale) / 2;
+      const offsetY = (window.innerHeight - 1920 * scale) / 2;
+      stage.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+    }
+    scaleStage();
+    window.addEventListener('resize', scaleStage);
+
+    // ── Build timeline synchronously ──
+    const tl = gsap.timeline({ paused: true });
+
+    // Persistent chrome
+    tl.to('#accent-top',    { scaleX: 1, duration: 0.8, ease: 'power3.out' }, 0.0);
+    tl.to('#accent-bottom', { scaleX: 1, duration: 0.8, ease: 'power3.out' }, 0.2);
+
+    // Scene 1: Hook (0–3s)
+    tl.to('#hook-eyebrow',   { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' }, 0.5);
+    tl.from('#hook-eyebrow', { y: 20 }, '<');
+    tl.to('#hook-brothers',  { opacity: 1, duration: 0.55, ease: 'power3.out' }, 0.85);
+    tl.from('#hook-brothers',{ y: 55 }, '<');
+    tl.to('#hook-hear',      { opacity: 1, duration: 0.5,  ease: 'power3.out' }, 1.35);
+    tl.from('#hook-hear',    { y: 40 }, '<');
+    tl.to('#hook-rule',      { scaleX: 1, duration: 0.5,  ease: 'power2.out' }, 1.8);
+
+    // Hook exit
+    tl.to('#scene-hook', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 2.55);
+
+    // Scene 2: Stat (3–7.5s)
+    tl.to('#scene-stat',    { opacity: 1, duration: 0 }, 3.0);
+    tl.to('#stat-eyebrow',  { opacity: 1, duration: 0.35, ease: 'power2.out' }, 3.1);
+    tl.from('#stat-eyebrow',{ y: 16 }, '<');
+    tl.to('#stat-number',   { opacity: 1, scale: 1, duration: 0.55, ease: 'back.out(1.4)' }, 3.35);
+    tl.from('#stat-number', { scale: 0.72 }, '<');
+    tl.to('#stat-in-3',     { opacity: 1, duration: 0.5,  ease: 'power3.out' }, 3.8);
+    tl.from('#stat-in-3',   { x: -45 }, '<');
+    tl.to('#stat-body',     { opacity: 1, duration: 0.55, ease: 'power2.out' }, 4.45);
+    tl.from('#stat-body',   { y: 32 }, '<');
+    tl.to('#stat-rule',     { scaleX: 1, duration: 0.4,  ease: 'power2.out' }, 5.2);
+    tl.to('#stat-source',   { opacity: 1, duration: 0.4,  ease: 'none' }, 5.6);
+
+    // Stat exit
+    tl.to('#scene-stat', { opacity: 0, duration: 0.45, ease: 'power2.in' }, 7.05);
+
+    // Scene 3: CTA (7.5–9.5s)
+    tl.to('#scene-cta',    { opacity: 1, duration: 0 }, 7.5);
+    tl.to('#cta-tag',      { opacity: 1, duration: 0.35, ease: 'power2.out' }, 7.6);
+    tl.from('#cta-tag',    { y: 16 }, '<');
+    tl.to('#cta-heading',  { opacity: 1, duration: 0.55, ease: 'power3.out' }, 7.85);
+    tl.from('#cta-heading',{ y: 45 }, '<');
+    tl.to('#cta-sub',      { opacity: 1, duration: 0.5,  ease: 'power2.out' }, 8.35);
+    tl.from('#cta-sub',    { y: 28 }, '<');
+    tl.to('#cta-brand',    { opacity: 1, duration: 0.4,  ease: 'none' }, 8.85);
+
+    // Register for HyperFrames renderer
+    window.__timelines = window.__timelines || {};
+    window.__timelines['health-stat-reveal'] = tl;
+
+    // Auto-play for browser preview
+    tl.play();
+  </script>
+</body>
+</html>

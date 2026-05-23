@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": "skill/SKILL.md",
+      "computedHash": "c8f645c3e9aace8baf528021165168bac77d4f761f0ab7baf45e06e01691500f"
+    },
+    "infsh-cli": {
+      "source": "inference-sh/skills",
+      "sourceType": "github",
+      "skillPath": "tools/infsh-cli/SKILL.md",
+      "computedHash": "69a3321aefbe2eff28b7dfff7aad751c13aa5dab97258cae75f75b2e1ea8ca4e"
+    },
+    "twitter-automation": {
+      "source": "inferen-sh/skills",
+      "sourceType": "github",
+      "skillPath": "tools/social/twitter-automation/SKILL.md",
+      "computedHash": "442c20e184eb01b58ee656b204197f5284b3e8eda28101d253290a4dcbc709c4"
+    }
+  }
+}

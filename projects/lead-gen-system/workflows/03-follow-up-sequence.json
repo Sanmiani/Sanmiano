@@ -1,0 +1,334 @@
+{
+  "name": "03 — Follow-up Sequence (Day 3 / 7 / 14)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "30 9 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000001",
+      "name": "Weekdays at 9:30am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_DATABASE_ID",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Replied"
+            },
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Qualified"
+            },
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Won"
+            },
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Lost"
+            },
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Do Not Contact"
+            },
+            {
+              "key": "Status|select",
+              "condition": "is_not",
+              "selectValue": "Break-up Sent"
+            },
+            {
+              "key": "Follow-up Date|date",
+              "condition": "on_or_before",
+              "date": "={{ new Date().toISOString().split('T')[0] }}"
+            }
+          ]
+        }
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000002",
+      "name": "Get Leads Due for Follow-up",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [480, 400],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-id",
+              "name": "notionPageId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-fn",
+              "name": "firstName",
+              "value": "={{ $json.properties['Name']['title'][0]['plain_text'].split(' ')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-email",
+              "name": "email",
+              "value": "={{ $json.properties['Email']['email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-company",
+              "name": "company",
+              "value": "={{ $json.properties['Company']['rich_text'][0] ? $json.properties['Company']['rich_text'][0]['plain_text'] : 'your business' }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-count",
+              "name": "followUpCount",
+              "value": "={{ $json.properties['Follow-up Count']['number'] || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "assign-orig-subject",
+              "name": "originalSubject",
+              "value": "={{ $json.properties['Email Subject']['rich_text'][0] ? $json.properties['Email Subject']['rich_text'][0]['plain_text'] : '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000003",
+      "name": "Extract Lead Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [720, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-followup-count",
+              "leftValue": "={{ $json.followUpCount }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000004",
+      "name": "Which Follow-up?",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [960, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst followUpCount = item.followUpCount;\nconst firstName = item.firstName;\nconst company = item.company;\nconst calendlyLink = 'YOUR_CALENDLY_LINK';\n\nlet subject, body, nextStatus, nextFollowUpDays;\n\nif (followUpCount === 0) {\n  subject = `Re: ${item.originalSubject}`;\n  body = `Hi ${firstName},\\n\\nJust circling back in case this got buried.\\n\\nOne thing I've seen consistently: most businesses aren't short on leads — they're short on a system that works while they sleep.\\n\\nIf that's a problem at ${company}, I'd love to show you what that looks like in practice.\\n\\n15 minutes: ${calendlyLink}\\n\\nMatt\\n<!-- lead-gen-thread -->`;\n  nextStatus = 'Follow-up 1 Sent';\n  nextFollowUpDays = 4; // Day 7 total\n} else if (followUpCount === 1) {\n  subject = `One more try — ${firstName}`;\n  body = `Hi ${firstName},\\n\\nI'll keep this short — I've reached out twice and haven't heard back.\\n\\nI get it. You're busy. But if client acquisition is something you're actively working on at ${company}, let's talk before you spend another month on something that isn't working.\\n\\nI have two slots open this week: ${calendlyLink}\\n\\nMatt\\n<!-- lead-gen-thread -->`;\n  nextStatus = 'Follow-up 2 Sent';\n  nextFollowUpDays = 7; // Day 14 total\n} else if (followUpCount === 2) {\n  subject = `Closing your file`;\n  body = `Hi ${firstName},\\n\\nI've sent a few messages and haven't heard back, so I'm going to assume the timing isn't right.\\n\\nI'll stop following up — no hard feelings.\\n\\nIf your situation changes and you'd like help building a predictable lead gen system, my calendar is always open: ${calendlyLink}\\n\\nWishing you well,\\n\\nMatt Okewusi\\n<!-- lead-gen-thread -->`;\n  nextStatus = 'Break-up Sent';\n  nextFollowUpDays = null;\n}\n\nconst followUpDate = nextFollowUpDays\n  ? new Date(Date.now() + nextFollowUpDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0]\n  : null;\n\nreturn {\n  ...item,\n  emailSubject: subject,\n  emailBody: body,\n  nextStatus,\n  followUpDate,\n  newFollowUpCount: followUpCount + 1\n};"
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000005",
+      "name": "Build Follow-up Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 400]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "replyTo": "YOUR_EMAIL",
+          "appendAttribution": false
+        }
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000006",
+      "name": "Send Follow-up Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1440, 400],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Build Follow-up Email').item.json.notionPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "={{ $('Build Follow-up Email').item.json.nextStatus }}"
+            },
+            {
+              "key": "Last Contact Date|date",
+              "date": "={{ new Date().toISOString().split('T')[0] }}"
+            },
+            {
+              "key": "Follow-up Date|date",
+              "date": "={{ $('Build Follow-up Email').item.json.followUpDate }}"
+            },
+            {
+              "key": "Follow-up Count|number",
+              "numberValue": "={{ $('Build Follow-up Email').item.json.newFollowUpCount }}"
+            }
+          ]
+        }
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000007",
+      "name": "Update Notion Status",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [1680, 400],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 90,
+        "unit": "seconds"
+      },
+      "id": "c1b2c3d4-0003-0003-0003-000000000008",
+      "name": "Wait 90s Between Sends",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1920, 400],
+      "webhookId": "lead-gen-wait-03"
+    }
+  ],
+  "connections": {
+    "Weekdays at 9:30am": {
+      "main": [
+        [
+          {
+            "node": "Get Leads Due for Follow-up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Leads Due for Follow-up": {
+      "main": [
+        [
+          {
+            "node": "Extract Lead Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Lead Data": {
+      "main": [
+        [
+          {
+            "node": "Build Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Follow-up Email": {
+      "main": [
+        [
+          {
+            "node": "Send Follow-up Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Follow-up Email": {
+      "main": [
+        [
+          {
+            "node": "Update Notion Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Notion Status": {
+      "main": [
+        [
+          {
+            "node": "Wait 90s Between Sends",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": ""
+  },
+  "tags": [
+    {
+      "name": "lead-gen",
+      "createdAt": "2026-05-20T00:00:00.000Z",
+      "updatedAt": "2026-05-20T00:00:00.000Z"
+    }
+  ]
+}

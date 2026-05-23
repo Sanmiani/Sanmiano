@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "brave-search": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-brave-search"],
+      "env": {
+        "BRAVE_API_KEY": "YOUR_BRAVE_API_KEY_HERE"
+      }
+    }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"if ((Get-Date).DayOfWeek -eq 'Sunday') { Add-Content -Path '$env:USERPROFILE\\.claude\\sunday-batch.log' -Value \\\"[$(Get-Date -Format 'yyyy-MM-dd HH:mm')] Sunday batch reminder fired\\\" }\""
+          }
+        ]
+      }
+    ]
+  }
+}

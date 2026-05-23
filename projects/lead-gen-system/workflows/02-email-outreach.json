@@ -1,0 +1,280 @@
+{
+  "name": "02 — Cold Email Outreach (Daily Sender)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 * * 1-5"
+            }
+          ]
+        }
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000001",
+      "name": "Weekdays at 9am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_DATABASE_ID",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Status|select",
+              "condition": "equals",
+              "selectValue": "Ready to Email"
+            }
+          ]
+        }
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000002",
+      "name": "Get Ready-to-Email Leads",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [480, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000003",
+      "name": "Limit to 10 Per Day",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-firstname",
+              "name": "firstName",
+              "value": "={{ $json.properties['Name']['title'][0]['plain_text'].split(' ')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-company",
+              "name": "company",
+              "value": "={{ $json.properties['Company']['rich_text'][0] ? $json.properties['Company']['rich_text'][0]['plain_text'] : 'your company' }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-email",
+              "name": "email",
+              "value": "={{ $json.properties['Email']['email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-notion-id",
+              "name": "notionPageId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-subject",
+              "name": "emailSubject",
+              "value": "=Quick question, {{ $json.properties['Name']['title'][0]['plain_text'].split(' ')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-body",
+              "name": "emailBody",
+              "value": "=Hi {{ $json.properties['Name']['title'][0]['plain_text'].split(' ')[0] }},\n\nI help service businesses generate consistent, qualified leads without relying on referrals or paid ads.\n\nMost of my clients were spending 10+ hours a week on manual outreach and getting inconsistent results. I automated their entire pipeline — they now book 8–15 discovery calls a month on autopilot.\n\nWorth a 15-minute call to see if I can do the same for {{ $json.properties['Company']['rich_text'][0] ? $json.properties['Company']['rich_text'][0]['plain_text'] : 'your business' }}?\n\n[Book a time here]: YOUR_CALENDLY_LINK\n\nMatt Okewusi\n<!-- lead-gen-thread -->",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000004",
+      "name": "Prepare Email Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.emailSubject }}",
+        "emailType": "text",
+        "message": "={{ $json.emailBody }}",
+        "options": {
+          "replyTo": "YOUR_EMAIL",
+          "appendAttribution": false
+        }
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000005",
+      "name": "Send Cold Email via Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1200, 300],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Prepare Email Variables').item.json.notionPageId }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Email Sent"
+            },
+            {
+              "key": "Last Contact Date|date",
+              "date": "={{ new Date().toISOString().split('T')[0] }}"
+            },
+            {
+              "key": "Follow-up Date|date",
+              "date": "={{ new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] }}"
+            },
+            {
+              "key": "Email Subject|rich_text",
+              "textContent": "={{ $('Prepare Email Variables').item.json.emailSubject }}"
+            },
+            {
+              "key": "Follow-up Count|number",
+              "numberValue": 0
+            }
+          ]
+        }
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000006",
+      "name": "Update Notion — Email Sent",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [1440, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 60,
+        "unit": "seconds"
+      },
+      "id": "b1b2c3d4-0002-0002-0002-000000000007",
+      "name": "Wait 60s Between Emails",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [1680, 300],
+      "webhookId": "lead-gen-wait-02"
+    }
+  ],
+  "connections": {
+    "Weekdays at 9am": {
+      "main": [
+        [
+          {
+            "node": "Get Ready-to-Email Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Ready-to-Email Leads": {
+      "main": [
+        [
+          {
+            "node": "Limit to 10 Per Day",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit to 10 Per Day": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Variables": {
+      "main": [
+        [
+          {
+            "node": "Send Cold Email via Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Cold Email via Gmail": {
+      "main": [
+        [
+          {
+            "node": "Update Notion — Email Sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Notion — Email Sent": {
+      "main": [
+        [
+          {
+            "node": "Wait 60s Between Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": ""
+  },
+  "tags": [
+    {
+      "name": "lead-gen",
+      "createdAt": "2026-05-20T00:00:00.000Z",
+      "updatedAt": "2026-05-20T00:00:00.000Z"
+    }
+  ]
+}

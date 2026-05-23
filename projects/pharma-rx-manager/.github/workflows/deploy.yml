@@ -1,0 +1,16 @@
+name: Deploy to DigitalOcean
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger DigitalOcean App Platform deploy
+        # DigitalOcean App Platform auto-deploys on push to main via GitHub integration.
+        # This workflow is a placeholder — configure the GitHub integration in the DO dashboard.
+        # Run command set in App Platform: npx prisma migrate deploy && node dist/server.js
+        run: echo "Deploy triggered via DO App Platform GitHub integration"

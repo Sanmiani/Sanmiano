@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sumbee Pastries - Ileya Sale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700;800&family=Poppins:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background: #ccc;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .flyer {
+      width: 1080px;
+      min-height: 1080px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+      padding: 22px 22px 0 22px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .logo-top {
+      font-family: 'Dancing Script', cursive;
+      font-size: 48px;
+      font-weight: 800;
+      color: #8B0000;
+      line-height: 1;
+    }
+    .logo-scissors {
+      font-size: 22px;
+      color: #8B0000;
+      letter-spacing: -2px;
+    }
+    .logo-pastries {
+      font-family: 'Dancing Script', cursive;
+      font-size: 38px;
+      font-weight: 800;
+      color: #8B0000;
+      line-height: 1;
+    }
+    .logo-tagline {
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 700;
+      color: #555;
+    }
+
+    .title-center {
+      text-align: center;
+      flex: 1;
+      line-height: 1;
+      padding: 0 10px;
+    }
+    .title-ileya {
+      font-family: 'Dancing Script', cursive;
+      font-size: 116px;
+      font-weight: 800;
+      color: #8B0000;
+      line-height: 1;
+    }
+    .title-sale {
+      font-family: 'Poppins', sans-serif;
+      font-size: 130px;
+      font-weight: 900;
+      color: #e00000;
+      line-height: 0.95;
+      -webkit-text-stroke: 2px #8B0000;
+      letter-spacing: -2px;
+    }
+
+    .top-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .crescent-deco {
+      font-size: 72px;
+      line-height: 1;
+    }
+    .eid-badge {
+      width: 135px;
+      height: 135px;
+      border: 3px solid #111;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 900;
+      font-size: 24px;
+      line-height: 1.2;
+      background: white;
+    }
+    .eid-badge .eid-line2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #cc0000;
+    }
+
+    /* ── MAIN BODY ── */
+    .main-body {
+      display: flex;
+      gap: 12px;
+    }
+
+    .left-col {
+      flex: 0 0 680px;
+    }
+
+    .right-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ── BOXES GRID (2×2) ── */
+    .boxes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .product-box {
+      border: 2.5px solid #111;
+      overflow: hidden;
+    }
+
+    .box-header {
+      background: #cc0000;
+      color: white;
+      font-weight: 900;
+      font-size: 20px;
+      padding: 7px 10px 4px;
+      text-transform: uppercase;
+      line-height: 1.2;
+      letter-spacing: 0.3px;
+    }
+    .box-price {
+      font-size: 36px;
+      font-weight: 900;
+      color: gold;
+      display: block;
+      line-height: 1.1;
+    }
+
+    .box-body {
+      background: #111;
+      color: white;
+      padding: 9px 12px 11px;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    /* ── ILEYA DELIGHT BOX (full width) ── */
+    .delight-section {
+      border: 2.5px solid #111;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+
+    .delight-header {
+      background: #cc0000;
+      color: white;
+      font-weight: 900;
+      font-size: 24px;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 9px 10px;
+      letter-spacing: 1px;
+    }
+
+    .delight-body {
+      background: #111;
+      color: white;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 28px;
+      padding: 11px 18px 13px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .delight-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .delight-row .item-name {
+      flex: 1;
+    }
+
+    .delight-row .prices {
+      white-space: nowrap;
+      font-weight: 800;
+    }
+
+    .was { text-decoration: line-through; color: #aaa; font-size: 15px; margin-right: 4px; }
+    .now { color: gold; font-weight: 900; font-size: 19px; }
+
+    /* ── PHOTO BOXES ── */
+    .photo-slot {
+      background: #1a1a1a;
+      border: 1.5px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 12px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .free-cupcake {
+      border: 2.5px solid #111;
+      border-radius: 6px;
+      padding: 12px 6px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 19px;
+      line-height: 1.5;
+      color: #111;
+      background: white;
+    }
+
+    .eid-icons {
+      text-align: center;
+      font-size: 52px;
+      padding: 4px 0;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #cc0000;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 24px;
+      margin: 12px -22px 0;
+      font-weight: 900;
+      font-size: 21px;
+      gap: 10px;
+    }
+    .footer span {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .footer .icon {
+      font-size: 28px;
+    }
+  </style>
+</head>
+<body>
+  <div class="flyer">
+
+    <!-- HEADER -->
+    <div class="header">
+
+      <!-- Logo -->
+      <div class="logo">
+        <img src="Sumbee logo.jpeg" alt="Sumbee Pastries"
+             style="width:170px; object-fit:contain; display:block;">
+      </div>
+
+      <!-- Centre title -->
+      <div class="title-center">
+        <div class="title-ileya">Ileya</div>
+        <div class="title-sale">SALE</div>
+      </div>
+
+      <!-- Top-right: crescent + Eid badge -->
+      <div class="top-right">
+        <div class="crescent-deco">🌙⭐</div>
+        <div class="eid-badge">
+          <div>Eid</div>
+          <div class="eid-line2">Mubarak</div>
+          <div style="font-size:32px;">☪</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN BODY -->
+    <div class="main-body">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+
+        <!-- 2×2 product boxes -->
+        <div class="boxes-grid">
+
+          <!-- EID BLISS BOX -->
+          <div class="product-box">
+            <div class="box-header">
+              EID BLISS BOX
+              <span class="box-price">$50</span>
+            </div>
+            <div class="box-body">
+              3 mini meatpie<br>
+              3 doughnuts<br>
+              2 egg rolls<br>
+              2 sausage rolls<br>
+              2 chicken pie<br>
+              ¼ puff puff
+            </div>
+          </div>
+
+          <!-- EID BITE -->
+          <div class="product-box">
+            <div class="box-header">
+              EID BITE
+              <span class="box-price">$35</span>
+            </div>
+            <div class="box-body">
+              6 spring rolls<br>
+              6 samosas<br>
+              30 puff puff
+            </div>
+          </div>
+
+          <!-- CLASSIC ILEYA PLATTER -->
+          <div class="product-box">
+            <div class="box-header">
+              CLASSIC ILEYA PLATTER
+              <span class="box-price">$65</span>
+            </div>
+            <div class="box-body">
+              5 meatpie<br>
+              5 sausage rolls<br>
+              4 egg rolls<br>
+              20 puff puff<br>
+              Bowl of gizzard
+            </div>
+          </div>
+
+          <!-- EID HAPPINESS PLATTER -->
+          <div class="product-box">
+            <div class="box-header">
+              EID HAPPINESS PLATTER
+              <span class="box-price">$60</span>
+            </div>
+            <div class="box-body">
+              10 meatpie<br>
+              10 sausage rolls<br>
+              40 puff puff
+            </div>
+          </div>
+
+        </div><!-- /boxes-grid -->
+
+        <!-- ILEYA DELIGHT BOX – full width -->
+        <div class="delight-section">
+          <div class="delight-header">🌙 ILEYA DELIGHT BOX 🌙</div>
+          <div class="delight-body">
+
+            <div class="delight-row">
+              <span class="item-name">Box of mini meatpie</span>
+              <span class="prices"><span class="was">$50</span><span class="now">$45</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Box of sausage roll</span>
+              <span class="prices"><span class="was">$40</span><span class="now">$35</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Box of puff puff</span>
+              <span class="prices"><span class="was">$60</span><span class="now">$50</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Box of egg roll</span>
+              <span class="prices"><span class="was">$35</span><span class="now">$30</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Box of mini chicken pie</span>
+              <span class="prices"><span class="was">$50</span><span class="now">$45</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Box of doughnuts</span>
+              <span class="prices"><span class="was">$42</span><span class="now">$38</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">3 wraps of shawarma</span>
+              <span class="prices"><span class="now">$45</span></span>
+            </div>
+
+            <div class="delight-row">
+              <span class="item-name">Tray of chin chin</span>
+              <span class="prices"><span class="was">$60</span><span class="now">$50</span></span>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- /left-col -->
+
+      <!-- RIGHT COLUMN (photo slots) -->
+      <div class="right-col">
+        <div class="photo-slot" style="flex:1; min-height:570px; padding:0; overflow:hidden;">
+          <img src="food-photo.jpeg" alt="Sumbee food box"
+               style="width:100%; height:100%; object-fit:cover; display:block;">
+        </div>
+        <div class="free-cupcake">
+          Send in your orders now<br>to pick up on the<br><strong>27th of May</strong>
+        </div>
+        <div class="eid-icons">🌙 ⭐ 🕌</div>
+      </div>
+
+    </div><!-- /main-body -->
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <span><span class="icon">📞</span> +1 (343) 263-0590</span>
+      <span><span class="icon">🌐</span> www.sumbeepastries.com</span>
+      <span><span class="icon">📸</span> @sumbee_pastries</span>
+    </div>
+
+  </div><!-- /flyer -->
+
+</body>
+</html>

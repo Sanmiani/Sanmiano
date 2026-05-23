@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Who You Are Now - Matt Okewusi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Montserrat:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 11pt;
+    line-height: 1.85;
+    color: #1a1a1a;
+    background: #ffffff;
+  }
+
+  .page {
+    width: 148mm;
+    min-height: 210mm;
+    margin: 0 auto;
+    padding: 20mm 18mm;
+    page-break-after: always;
+  }
+
+  /* Title Page */
+  .title-page {
+    background-image: url('Cover page.jpeg');
+    background-size: cover;
+    background-position: center 15%;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    min-height: 210mm;
+    padding: 15mm 18mm;
+    position: relative;
+  }
+
+  .title-page::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 15, 44, 0.92) 0%,
+      rgba(10, 15, 44, 0.30) 25%,
+      rgba(10, 15, 44, 0.18) 45%,
+      rgba(10, 15, 44, 0.82) 65%,
+      rgba(10, 15, 44, 0.98) 100%
+    );
+    z-index: 1;
+  }
+
+  .title-page > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  .title-bottom-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .series-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    letter-spacing: 4px;
+    color: #C9A84C;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+  }
+
+  .book-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 46pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 5mm;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,1);
+    letter-spacing: 2px;
+  }
+
+  .book-subtitle {
+    font-family: 'Merriweather', serif;
+    font-size: 15pt;
+    font-weight: 700;
+    font-style: italic;
+    color: #F5F0E8;
+    margin-bottom: 8mm;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.95);
+  }
+
+  .gold-line {
+    width: 60mm;
+    height: 3px;
+    background: #C9A84C;
+    margin: 0 auto 8mm auto;
+  }
+
+  .author-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: 5px;
+    color: #C9A84C;
+    text-transform: uppercase;
+    margin-top: auto;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.95);
+  }
+
+  /* Copyright Page */
+  .copyright-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: 8pt;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* Dedication & Acknowledgment Pages */
+  .dedication-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 25mm 20mm;
+  }
+
+  .dedication-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #C9A84C;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 8mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #C9A84C;
+    width: 100%;
+  }
+
+  .dedication-page p {
+    font-size: 10.5pt;
+    line-height: 1.9;
+    color: #1a1a1a;
+    margin-bottom: 5mm;
+    text-align: left;
+  }
+
+  .dedication-page .recipient {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0A0F2C;
+    margin-bottom: 3mm;
+    margin-top: 5mm;
+  }
+
+  .dedication-page .closing {
+    font-style: italic;
+    color: #444;
+    margin-top: 6mm;
+  }
+
+  /* TOC */
+  .toc-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0A0F2C;
+    margin-bottom: 10mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #C9A84C;
+  }
+
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 3mm 0;
+    border-bottom: 1px dotted #ddd;
+    font-size: 10pt;
+  }
+
+  .toc-chapter {
+    color: #0A0F2C;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+  }
+
+  .toc-sub {
+    color: #444;
+    font-style: italic;
+    font-size: 9pt;
+    padding-left: 5mm;
+  }
+
+  /* Chapter Pages */
+  .chapter-opener {
+    background: #0A0F2C;
+    color: #ffffff;
+    min-height: 210mm;
+    padding: 20mm 18mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .chapter-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    letter-spacing: 3px;
+    color: #C9A84C;
+    text-transform: uppercase;
+    margin-bottom: 5mm;
+  }
+
+  .chapter-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22pt;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.25;
+    margin-bottom: 4mm;
+  }
+
+  .chapter-opener .gold-line {
+    margin: 5mm 0 0 0;
+    width: 25mm;
+  }
+
+  /* Body Content */
+  .content-page p {
+    margin-bottom: 5mm;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .content-page p:first-of-type {
+    font-size: 12pt;
+    font-weight: 300;
+    color: #0A0F2C;
+    line-height: 1.6;
+    margin-bottom: 7mm;
+  }
+
+  .section-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0A0F2C;
+    margin: 10mm 0 4mm 0;
+    padding-bottom: 2mm;
+    border-bottom: 1px solid #C9A84C;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  em {
+    font-style: italic;
+    color: #0A0F2C;
+  }
+
+  strong {
+    font-weight: 700;
+    color: #0A0F2C;
+  }
+
+  blockquote {
+    border-left: 3px solid #C9A84C;
+    padding: 4mm 6mm;
+    margin: 6mm 0;
+    font-style: italic;
+    color: #333;
+    background: #f9f7f2;
+  }
+
+  .chapter-end-note {
+    margin-top: 12mm;
+    padding-top: 5mm;
+    border-top: 1px solid #C9A84C;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9pt;
+    color: #C9A84C;
+    font-style: italic;
+  }
+
+  /* Author Note */
+  .author-note {
+    background: #f9f7f2;
+  }
+
+  .author-note-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0A0F2C;
+    margin-bottom: 7mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #C9A84C;
+  }
+
+  /* Back Matter */
+  .series-page {
+    background: #0A0F2C;
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 210mm;
+    padding: 20mm;
+  }
+
+  .series-page h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10pt;
+    letter-spacing: 3px;
+    color: #C9A84C;
+    text-transform: uppercase;
+    margin-bottom: 10mm;
+  }
+
+  .series-book {
+    width: 100%;
+    padding: 5mm 0;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+    text-align: left;
+  }
+
+  .series-book-number {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8pt;
+    color: #C9A84C;
+    letter-spacing: 2px;
+  }
+
+  .series-book-title {
+    font-size: 11pt;
+    color: #ffffff;
+    margin-top: 1mm;
+  }
+
+  .series-book.current .series-book-title {
+    color: #C9A84C;
+    font-weight: bold;
+  }
+
+  @media print {
+    body { background: white; }
+    .page { margin: 0; padding: 20mm 18mm; }
+    .title-page, .chapter-opener, .series-page {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- TITLE PAGE -->
+<div class="page title-page">
+  <p class="series-label">The Strong After 35 Series &nbsp;&bull;&nbsp; Book 1</p>
+  <div class="title-bottom-block">
+    <h1 class="book-title">WHO YOU<br>ARE NOW</h1>
+    <p class="book-subtitle">The African Man's Recalibration at 35+</p>
+    <div class="gold-line"></div>
+    <p class="author-name">Matt Okewusi</p>
+  </div>
+</div>
+
+<!-- COPYRIGHT PAGE -->
+<div class="page copyright-page">
+  <p><strong>Who You Are Now: The African Man's Recalibration at 35+</strong></p>
+  <p>The Strong After 35 Series - Book 1</p>
+  <br>
+  <p>Copyright &copy; 2026 Matt Okewusi</p>
+  <p>All rights reserved.</p>
+  <br>
+  <p>No part of this publication may be reproduced, distributed, or transmitted in any form or by any means, including photocopying, recording, or other electronic or mechanical methods, without the prior written permission of the author, except in the case of brief quotations embodied in critical reviews and certain other non-commercial uses permitted by copyright law.</p>
+  <br>
+  <p>First published 2026</p>
+  <p>Printed and distributed by Kindle Direct Publishing</p>
+  <br>
+  <p><em>For every African man who kept going when nobody was watching.</em></p>
+</div>
+
+<!-- DEDICATION PAGE -->
+<div class="page dedication-page">
+  <p class="dedication-title">For My Family</p>
+
+  <p class="recipient">To my wife, Olasumbo Adeola.</p>
+
+  <p>You have been my constant. The one who kept showing up on the days I had nothing left to give, and still somehow made me feel like enough. You have carried more than your share of this journey - quietly, faithfully, and with a grace that still stops me in my tracks when I think about it.</p>
+
+  <p>This book would not exist without your belief in me. Without your patience on the late nights, your prayers over me in the early mornings, and the way you have loved me through every version of myself I have had to become. You never asked me to be more than I was. You just kept showing me that I already was enough - and that pushed me to become more anyway.</p>
+
+  <p>You are the reason I understand what real partnership looks like. You are the reason I know what it means to be chosen, every day, without condition.</p>
+
+  <p>Thank you. I love you more than I know how to say in a book.</p>
+
+  <p class="recipient">To my children, Sinmileoluwa and Temilloluwa.</p>
+
+  <p>Everything I do is for the both of you. Not just the providing - but the becoming. I want you to grow up watching a father who did not just work hard, but who also did the inner work. A father who asked the difficult questions of himself. Who refused to pass on the weight he was given, and decided instead to leave you something lighter, freer, and fuller.</p>
+
+  <p>You do not need a perfect father. You need a present one - one who is honest, who is growing, and who loves you without reservation. I am here. I am not going anywhere. And I am proud of who you both already are.</p>
+
+  <p class="closing">I love you, Sinmileoluwa. I love you, Temilloluwa. More than words in any book I will ever write could hold.</p>
+</div>
+
+<!-- ACKNOWLEDGMENT PAGE -->
+<div class="page dedication-page">
+  <p class="dedication-title">The Question That Started Everything</p>
+
+  <p>This book was born from a conversation.</p>
+
+  <p>Not a long one. Not a planned one. Just a moment - the kind that lands quietly and then does not leave you alone.</p>
+
+  <p><strong>Omobola Precious Olusiji</strong> asked me a question. A simple one on the surface, but the kind that keeps working on you long after the conversation ends. She asked me, in her calm and unhurried way, what I thought African men are actually carrying underneath everything they show the world.</p>
+
+  <p>I did not have a good answer in that moment. I thought I did. I started to give one. And then I heard myself - the careful words, the tidy version, the rehearsed response that every African man keeps ready when someone asks him how he is really doing.</p>
+
+  <p>She saw through it. And she pressed.</p>
+
+  <p>What followed was the kind of exchange that makes you honest with yourself whether you are ready for it or not. She was not asking me about statistics or research. She was asking about me. About us. About why so many African men arrive at their thirties and forties carrying so much and saying so little about what it actually costs them.</p>
+
+  <p>I drove home that evening differently. I sat with the question longer than I was comfortable with. I let it reach the parts of me I had kept sealed away for reasons I could not fully explain even to myself.</p>
+
+  <p>By the time I arrived home, I knew there was a book that needed to be written. Not a theory. Not a framework. A conversation - the kind that Precious started, and that I hope this book continues for every brother who picks it up.</p>
+
+  <p class="closing">Thank you, Omobola Precious Olusiji. For the question. For the honesty. And for trusting me enough to ask it.</p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="page content-page">
+  <p class="toc-title">Contents</p>
+
+  <div class="toc-item">
+    <span class="toc-chapter">Opening Hook</span>
+    <span class="toc-sub">Tuesday Morning</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">For My Family</span>
+    <span class="toc-sub">Dedication</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">The Question That Started Everything</span>
+    <span class="toc-sub">Acknowledgment</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 1</span>
+    <span class="toc-sub">The Weight Nobody Talks About</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 2</span>
+    <span class="toc-sub">The Roles That Stole Your Identity</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 3</span>
+    <span class="toc-sub">What 35 Actually Means</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 4</span>
+    <span class="toc-sub">The Brotherhood Gap</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 5</span>
+    <span class="toc-sub">Recalibration, Not Reinvention</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">Chapter 6</span>
+    <span class="toc-sub">Your Next Chapter Starts Here</span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">A Note From the Author</span>
+    <span class="toc-sub"></span>
+  </div>
+  <div class="toc-item">
+    <span class="toc-chapter">The Strong After 35 Series</span>
+    <span class="toc-sub">Coming Next</span>
+  </div>
+</div>
+
+<!-- CHAPTER 1 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter One</p>
+  <h2 class="chapter-title">The Weight Nobody<br>Talks About</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 1 CONTENT -->
+<div class="page content-page">
+  <p>Nobody warned you it would feel like this.</p>
+
+  <p>Not your father. Not your uncles. Not the older men in your community who seemed to carry everything with ease and never let you see them sweat. Nobody sat you down at 25 and said: <em>"Brother, there's going to come a season where you're doing everything right - and still feeling like something is wrong."</em></p>
+
+  <p>So when that season arrived, you assumed it was just you.</p>
+
+  <p>It isn't.</p>
+
+  <p class="section-heading">Tuesday Morning</p>
+
+  <p>Let's talk about a Tuesday.</p>
+
+  <p>Not a Monday with its fresh-start energy. Not a Friday with the weekend in sight. A Tuesday - the most ordinary day of the week - because that's where real life actually lives.</p>
+
+  <p>The alarm goes off at 6am. Maybe earlier. You're already half-awake because you never really went under. Too much sitting in the back of your mind for deep sleep to take hold. You lie there for a minute before your feet hit the floor, already running through the list. The bill that needs paying. The meeting you're dreading. The thing your partner said last week that you still haven't addressed properly. The money you promised to send home. The gym you said you'd go to - three weeks ago now.</p>
+
+  <p>You get up. You move. You do what needs to be done. Because that's what you do.</p>
+
+  <p>By the time you walk out the door you've already spent energy you don't have on thoughts you didn't choose. And the day hasn't even started yet.</p>
+
+  <p>This is the invisible weight. The one that doesn't show up on a doctor's chart. The one you won't mention at work, at church, at the family gathering where everyone needs you to be okay. The weight that 35+ African men carry - quietly, daily, almost always alone.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">The Provider Burden</p>
+
+  <p>There is a particular kind of exhaustion that comes from being the person everyone leans on.</p>
+
+  <p>If you're African, you already know what this looks like. It's not just about money - though money is rarely far from the conversation. It's the whole thing. You are expected to provide financially - for your household, and often for family members who are not even in your household. You are expected to be emotionally steady - the rock, the one who doesn't crack. You are expected to have the answers, make the decisions, hold it together when things fall apart.</p>
+
+  <p>And you do it. You show up. Because the alternative - falling short, being seen as unable to carry the load - feels worse than the exhaustion itself.</p>
+
+  <p>Research from the American Psychological Association shows that men, particularly those in high-responsibility cultural roles, underreport stress and are significantly less likely to seek support than women. Among African and Black men specifically, the numbers are starker. Not because the stress is less - studies suggest it is often more - but because the culture around vulnerability is different. You were not raised to talk about it. You were raised to handle it.</p>
+
+  <p>Handling it is not the same as being okay.</p>
+
+  <p>The provider burden is real. It is heavy. And the first honest thing this book wants to say to you is this: carrying that weight does not make you less of a man. But carrying it silently, indefinitely, with no outlet and no acknowledgement - that will cost you more than you can afford to pay.</p>
+
+  <p class="section-heading">The Silence Culture</p>
+
+  <p>There is a saying that moves through African households, sometimes spoken and sometimes just understood: <em>you do not air your problems outside.</em></p>
+
+  <p>What happens inside the family stays inside. What happens inside the man stays inside the man. Struggle is private. Pain is managed, not shared. You learn early that emotions - the complicated ones, anyway - are not for public consumption. You learn that the men who complain are the men who are weak. And weakness is not something your people have the luxury of showing the world.</p>
+
+  <p>This was not malicious. In many ways it was protective. Generations of African men developed this armour because the world required it. To survive, to build something from nothing, to keep moving through systems that were never designed for you - you could not afford to stop and ask how you were feeling.</p>
+
+  <p>But survival armour worn past the point of danger becomes a prison.</p>
+
+  <p>At 35, many African men are still wearing armour they built at 15. Still operating under the emotional rules of a boy who was learning to be hard. Still keeping everything inside because that is what was modelled - even when the original threat is long gone, even when the people around you are safe, even when the silence itself is the thing doing the damage.</p>
+
+  <p>The silence culture is not a character flaw. It is an inheritance. And like any inheritance, you get to decide what you keep and what you leave behind.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">The Comparison Trap</p>
+
+  <p>You know the man. Maybe you grew up with him. Went to the same school, ran in the same circles, started from the same place. And somewhere along the way his path went one direction and yours went another.</p>
+
+  <p>He has got the house. The car. The business that seems to be doing well. The social media that makes his life look easy. And when you see it - even when you are genuinely happy for him - something tightens in your chest. A question comes up that you push back down almost immediately, because it feels ungrateful, because you know you have things to be thankful for, because you are not that kind of man.</p>
+
+  <blockquote>Why not me?</blockquote>
+
+  <p>The comparison trap is cruel at 35 because this is the age when certain gaps start to feel permanent. In your twenties everything still felt possible. At 35 the maths feels different. The peer who got ahead at 28 has had seven more years to build on that advantage. And you have to reckon with the choices you made, the ones made for you, the timing that did not cooperate, the systems that were never in your favour.</p>
+
+  <p>What makes it worse is that the comparison is almost never fair. You are measuring your full reality - the sleepless nights, the quiet sacrifices, the things that went sideways - against someone else's highlight reel. Your interior against their exterior. The interior always loses that fight.</p>
+
+  <p>Here is what is true: there is no version of this comparison that helps you. Not one. The man ahead of you does not show you the road. He shows you a destination built on a different set of circumstances, choices, and luck. Your road is not his road. The energy you spend measuring yourself against him is energy stolen from the one man who actually needs it - you.</p>
+
+  <p class="section-heading">The Question Underneath Everything</p>
+
+  <p>There is a question that lives under all of it. Under the exhaustion, the silence, the comparison, the weight. Most men never say it out loud. Some do not even fully admit it to themselves. But it is there, surfacing at the strangest moments - in the car on the way home, in the five minutes of quiet before the house wakes up, in the middle of the night when sleep will not come.</p>
+
+  <blockquote>Is this it?</blockquote>
+
+  <p>Is this what I was building toward? Is this the life I was supposed to be living? Did I miss a turning somewhere? Is there more - more for me, more from me - or have I already arrived at the full extent of what my life is going to be?</p>
+
+  <p>That question is not ingratitude. It is not weakness. It is not a crisis - though it can feel like one.</p>
+
+  <p>It is the sound of a man who has been running so hard for so long that he has lost sight of why he started running in the first place.</p>
+
+  <p>It is the first honest thing you have asked yourself in years.</p>
+
+  <p>And the fact that you are asking it - the fact that you picked up this book, that something in you is paying attention - means you are already at the beginning of something. Not an ending. Not a breakdown. A recalibration.</p>
+
+  <p>That question is not the problem. That question is the door.</p>
+
+  <p class="section-heading">You Are Not Alone in This Room</p>
+
+  <p>If any part of this chapter felt like it was written for you specifically - if you read a line and thought <em>how does he know that</em> - I want you to understand something.</p>
+
+  <p>This is not a coincidence. This is not clever writing.</p>
+
+  <p>This is what happens when one African man decides to say the things that most of us have been too busy, too private, or too armoured to say out loud.</p>
+
+  <p>There are men reading this right now who are sitting in the same room you are. Different cities. Different countries. Different circumstances. Same weight. Same question. Same Tuesday morning.</p>
+
+  <p>You are not the only one carrying this. You never were.</p>
+
+  <p>And that matters - because what comes next in this book, and in this series, is built on that foundation. Not the foundation of "here is a system to fix yourself." The foundation of: <em>you are not broken. You are not behind. You are not alone.</em></p>
+
+  <p>You are a 35+ African man at the beginning of his most important chapter.</p>
+
+  <p>Let's talk about what that means.</p>
+
+  <p class="chapter-end-note">Continue to Chapter 2: The Roles That Stole Your Identity</p>
+</div>
+
+<!-- CHAPTER 2 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter Two</p>
+  <h2 class="chapter-title">The Roles That<br>Stole Your Identity</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 2 CONTENT -->
+<div class="page content-page">
+  <p>At some point, without anyone announcing it, you stopped being a person and became a function.</p>
+
+  <p>It did not happen overnight. It crept in slowly - through responsibility, through expectation, through the quiet accumulation of roles that other people needed you to play. And one day you looked up and realised that almost everything you did from morning to night was defined by what you were to someone else.</p>
+
+  <p>The son who had to make the family proud. The husband who had to hold the household together. The father who had to set the example. The employee who had to keep the income flowing. The strong one in the friend group. The responsible one in the family. The one who had it together.</p>
+
+  <p>You became very good at all of these roles. That is not the problem.</p>
+
+  <p>The problem is that somewhere in the middle of all that performing, you lost the man underneath the roles.</p>
+
+  <p class="section-heading">The Roles Come Early</p>
+
+  <p>For African men, the weight of role identity starts young.</p>
+
+  <p>You were watching how your father moved before you understood what he was carrying. You absorbed the lessons without anyone teaching them formally - that men provide, men protect, men do not show their pain in public. That asking for help is weakness. That your value is tied to your output.</p>
+
+  <p>By the time you were a teenager you already had a blueprint. Not one you chose - one that was handed to you by your culture, your family, your community, and the wider world that had very specific ideas about what a Black African man was supposed to be.</p>
+
+  <p>Some of that blueprint was good. The work ethic. The loyalty. The sense of responsibility. The ability to push through difficulty without folding. These are real strengths and they have served you.</p>
+
+  <p>But a blueprint that was written by others, for a different time, in a different set of circumstances - that blueprint has gaps. And at 35 those gaps start showing up in your health, your relationships, your sense of self, and the growing feeling that you are living someone else's life instead of your own.</p>
+
+  <p class="section-heading">The Moment the Role Became the Man</p>
+
+  <p>There is usually a moment - or a series of moments - where the shift happens. Where you stop playing a role and start believing you <em>are</em> the role.</p>
+
+  <p>Maybe it was when you got your first real job and the income changed things for your family. Suddenly you were the provider in a way that felt permanent. The role locked in.</p>
+
+  <p>Maybe it was when your first child arrived and the weight of fatherhood settled on you like a second skin. You had to become the father - no time to figure out who you were outside of that.</p>
+
+  <p>Maybe it was after a crisis - a death in the family, a financial setback, a relationship that broke - and you had to be strong for everyone around you. There was no space to be anything else. So you became the strong one. And you stayed there.</p>
+
+  <p>These moments are not shameful. They are human. When people you love need you to show up, you show up. That is one of the finest things about the African men I know.</p>
+
+  <p>But here is the quiet cost: every time you showed up as the role without space to be the person, the gap between you and yourself grew a little wider. And by 35 that gap can feel like a canyon.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">What Got Left Behind</p>
+
+  <p>Ask yourself this honestly: what did you used to love that you no longer do?</p>
+
+  <p>Not what you gave up because it was childish or impractical. I mean the things that made you feel alive - the music you played, the sport you were good at, the ideas that excited you, the creative thing you had a gift for, the dream that used to keep you up at night because you were too eager to sleep.</p>
+
+  <p>Where did those things go?</p>
+
+  <p>For most African men at 35 the answer is the same. Life ate them. The roles ate them. The responsibilities came and the things that were just for you - the things that had no function, no output, no value to anyone else - those got sacrificed first. Because they felt like luxuries. Because there was always something more pressing. Because who has time for passion when there are bills to pay and people counting on you?</p>
+
+  <p>This is one of the saddest quiet losses I know of. Not because the things themselves were so essential. But because the man who had those things - that curious, interested, alive man - he is still in there. He did not die. He just got buried under the weight of everything the roles required.</p>
+
+  <p>And he is exactly who this book is trying to find.</p>
+
+  <p class="section-heading">Why Letting Go of a Role Feels Like Betrayal</p>
+
+  <p>Here is something that makes this complicated: the roles are not just external. You have internalised them. They feel like you now.</p>
+
+  <p>When someone suggests that you do not have to carry everything alone, it does not feel like relief. It feels threatening. When someone says it is okay to want something for yourself, it does not feel like permission. It feels selfish.</p>
+
+  <p>Because the role has become your identity. And letting go of any part of it - even the heavy, crushing, suffocating parts - feels like letting people down. Like betraying the man your family raised. Like being less.</p>
+
+  <p>This is one of the most important things to understand before you go further in this book: recalibrating your identity is not betrayal. It is not weakness. It is not selfishness.</p>
+
+  <p>It is the most responsible thing you can do - for yourself and for every person who depends on you.</p>
+
+  <p>Because the man who is running on empty, who has buried himself under roles, who has no idea who he is outside of what he does for others - that man is not at his best. He is surviving. And the people you love deserve more than a man who is just surviving.</p>
+
+  <p>They deserve the full version of you. Which means you have to first find out who that is.</p>
+
+  <p class="section-heading">The Question to Sit With</p>
+
+  <p>Before we move to the next chapter, I want you to sit with one question. Not a task. Just a question.</p>
+
+  <blockquote>Outside of every role you play - father, husband, son, provider, employee - who are you?</blockquote>
+
+  <p>Not who you want to be. Not who you used to be. Right now, underneath all of it - who is actually in there?</p>
+
+  <p>If the question makes you uncomfortable, that discomfort is information. It is telling you exactly where the work needs to happen.</p>
+
+  <p>We are going to do that work together.</p>
+
+  <p class="chapter-end-note">Continue to Chapter 3: What 35 Actually Means</p>
+</div>
+
+<!-- CHAPTER 3 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter Three</p>
+  <h2 class="chapter-title">What 35<br>Actually Means</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 3 CONTENT -->
+<div class="page content-page">
+  <p>Let's deal with the lie first.</p>
+
+  <p>The lie that 35 is the beginning of decline. That your best years are behind you. That the window for doing something meaningful with your life has already started to close. That the men who were going to make it have already made it - and the rest of you need to accept where you have landed and manage the slow descent gracefully.</p>
+
+  <p>You have heard this lie in different forms. Sometimes it comes from outside - society, media, the culture that decides a man's value by how early he peaks. Sometimes it comes from inside - the voice that counts the years since a dream was alive and does the maths with a heavy hand.</p>
+
+  <p>It is a lie. And the numbers say so.</p>
+
+  <p class="section-heading">The Maths Is on Your Side</p>
+
+  <p>A study published in the National Academy of Sciences found that life satisfaction in men tends to follow a U-curve - it dips in the middle years and then rises again significantly after 50. The researchers found that men in their late 30s and 40s who invested intentionally in their purpose, relationships, and health were consistently reporting higher wellbeing in their 50s than they did in their 20s.</p>
+
+  <p>The Harvard Study of Adult Development - one of the longest-running studies of adult life ever conducted - tracked hundreds of men over 80 years. One of its clearest findings: the quality of a man's relationships in his middle years was the strongest predictor of how well he aged, how healthy he stayed, and how satisfied he felt with his life at the end. Not his income. Not his career. His relationships.</p>
+
+  <p>A separate body of research on male cognitive performance shows that while certain types of processing speed peak in the mid-20s, the capacities that actually matter most for building something - pattern recognition, emotional regulation, strategic thinking, complex problem-solving - these peak in the late 30s and 40s and remain strong well into the 50s.</p>
+
+  <p>In other words: the brain you have right now, at 35+, is closer to its peak operating capacity than the brain you had at 25. You just were not told that.</p>
+
+  <p class="section-heading">The Late Bloom Is Cultural and Real</p>
+
+  <p>There is something specific to the African experience that matters here.</p>
+
+  <p>Many African men in the diaspora - and many on the continent too - carry an extended financial and family timeline that their Western peers do not. You may have been sending money home through your 20s while your colleagues were building savings. You may have taken on family responsibilities that delayed your own investment in yourself. You may have navigated immigration, systemic barriers, credential recognition issues, or the sheer energy cost of existing in spaces that were not built for you.</p>
+
+  <p>Your timeline is not behind. It is different. And different is not the same as late.</p>
+
+  <p>Some of the most impactful African men I have read about and spoken to did not find their stride until their late 30s or 40s. Not because they were slow - because their first decade or two of adulthood was spent laying foundations that other people did not have to lay. The time you spent building from scratch, navigating systems alone, carrying more than your share - that was not wasted time. It was investment. And it compounds.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">What Your Fathers Got Wrong (With Respect)</p>
+
+  <p>Our fathers worked hard. Let's give them that fully and without qualification. Many of them came from nothing, built from nothing, sacrificed in ways we are still benefiting from. That is real and it deserves respect.</p>
+
+  <p>But there are also things they got wrong - not out of malice, but out of limitation. Out of what was modelled to them. Out of what the circumstances demanded.</p>
+
+  <p>Many of our fathers did not know how to rest. They equated rest with laziness and drove themselves into health problems that shortened their lives or the quality of them. They did not talk about what they were carrying. They measured their worth almost entirely by what they provided. And when the provision stopped - when they retired, when the children left, when the role fell away - many of them did not know who they were outside of it. Some of them never found out.</p>
+
+  <p>That is the inheritance we are gently, respectfully declining.</p>
+
+  <p>We can honour the work ethic without inheriting the self-erasure. We can carry the sense of responsibility without carrying it silently until it breaks us. We can be providers without making provision the whole of our identity.</p>
+
+  <p>35 is the age where this choice becomes available in a real way. You have enough life experience to see the pattern. You have enough ahead of you to change it.</p>
+
+  <p class="section-heading">The Decade That Changes Everything</p>
+
+  <p>Here is how I want you to think about the next ten years.</p>
+
+  <p>35 to 45 is the decade that decides the second half of your life. Not dramatically - quietly. Through the small choices you make consistently. The man who makes intentional choices in this decade - about his health, his relationships, his purpose, his community - arrives at 45 with momentum that builds for the rest of his life. The man who drifts through this decade on autopilot, running on the old programming, arrives at 45 feeling like something has passed him by.</p>
+
+  <p>You are at the start of that decade. Or somewhere inside it.</p>
+
+  <p>The question is not whether you have wasted time. The question is what you do with the time that is in front of you right now.</p>
+
+  <p>35 is not the beginning of the end. It is the beginning of the part where you actually know who you are and what you are doing. That is not a consolation prize. That is a genuine advantage - if you use it.</p>
+
+  <p class="chapter-end-note">Continue to Chapter 4: The Brotherhood Gap</p>
+</div>
+
+<!-- CHAPTER 4 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter Four</p>
+  <h2 class="chapter-title">The Brotherhood<br>Gap</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 4 CONTENT -->
+<div class="page content-page">
+  <p>When was the last time you had a real conversation with another man?</p>
+
+  <p>Not a conversation about football or work or politics. Not small talk at a family gathering. Not a WhatsApp voice note catching up on surface-level news. A real conversation - where you said something true about what was going on inside you, and another man sat with it and understood.</p>
+
+  <p>If you had to think hard to remember, that is the brotherhood gap.</p>
+
+  <p>And you are not alone in it.</p>
+
+  <p class="section-heading">How It Happened</p>
+
+  <p>In your teens and early twenties, brotherhood probably came naturally. You had friends around you constantly - at school, in the neighbourhood, in the places where young men gather and form bonds without even trying. The friendships were built on proximity, on shared experience, on the easy closeness that comes before life starts making demands.</p>
+
+  <p>Then life started making demands.</p>
+
+  <p>University scattered people. Jobs took everyone to different cities - different countries sometimes. Marriage reorganised social lives. Children consumed whatever time was left. The years moved fast and the distance between you and the men you used to be close to grew without any single moment you could point to as the break.</p>
+
+  <p>You stayed connected in the loose way that adult friendships survive - a message at Christmas, a like on a post, a "we should catch up soon" that never quite materialises into an actual date. But the deep, regular, honest contact - the kind that actually feeds a man's soul - that became rare.</p>
+
+  <p>And here is the thing about that loss: it is so gradual that most men do not notice it as a loss. They just notice a kind of emptiness they cannot name. A vague feeling of isolation that they push aside because they are too busy to examine it properly.</p>
+
+  <p class="section-heading">Why Asking for Help Feels Like It Will Kill You</p>
+
+  <p>African men do not find it easy to ask for help. We have already talked about the silence culture. But with male friendships specifically, there is an additional layer.</p>
+
+  <p>To be vulnerable with another man - to admit that you are struggling, that you do not have it figured out, that you need support - requires a level of trust that most adult male friendships never reach. Because the conversations were never that deep to begin with. Because we were taught to compete with other men, not confide in them. Because showing weakness in front of another man feels like handing him something he could use against you.</p>
+
+  <p>This is not paranoia. This is conditioning. Years of watching how men relate to each other - the banter that masks real feeling, the way admissions of vulnerability get laughed off or used as jokes later - teaches you to keep your walls up even with the people who are supposed to be your brothers.</p>
+
+  <p>The result is that many 35+ African men are surrounded by people and profoundly alone. They have a wife or partner who knows parts of them. They have colleagues and family who know the role-version of them. But almost nobody who knows the actual them. Nobody they can call at 11pm when something is breaking. Nobody they can sit with in silence and feel understood.</p>
+
+  <p>That is a serious problem. Not just emotionally - physiologically.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">What the Science Says About Isolated Men</p>
+
+  <p>The research on male social isolation is not kind.</p>
+
+  <p>A study from Brigham Young University found that loneliness and social isolation increase the risk of early death by 26 to 29 percent. Not a marginal risk. A risk comparable to smoking 15 cigarettes a day.</p>
+
+  <p>Men who lack close social connections are significantly more likely to develop depression, cardiovascular disease, and cognitive decline as they age. They are more likely to make poor financial decisions, because they have no trusted sounding board. They are more likely to stay in damaging situations - jobs, relationships, patterns - because they have no outside perspective to help them see clearly.</p>
+
+  <p>Brotherhood is not a luxury. It is health infrastructure.</p>
+
+  <p>The men who age well - who stay sharp, who stay purposeful, who maintain vitality into their 50s and 60s - almost universally have strong peer relationships. Not many. Quality over quantity. Two or three men who know them deeply and show up when it matters.</p>
+
+  <p>You need that. Not as a nice-to-have. As a requirement.</p>
+
+  <p class="section-heading">What Real Brotherhood Looks Like at 35+</p>
+
+  <p>I want to be specific about this because a lot of men hear "build community" and picture something that does not resonate. They think of support groups or therapy-adjacent settings that feel uncomfortable. Or they think of the surface-level male bonding that happens at sports events - fun, but not nourishing.</p>
+
+  <p>Real brotherhood at 35+ looks simpler than that.</p>
+
+  <p>It looks like a man you can call and speak honestly to - about your marriage, your finances, your fears, your ambitions - without performing. Without having to be the strong one.</p>
+
+  <p>It looks like someone who challenges you when you are making excuses and encourages you when you are genuinely struggling. Someone whose opinion of you matters enough to influence your behaviour but who is not sitting in judgement.</p>
+
+  <p>It looks like accountability without shame. Honesty without cruelty. Presence without condition.</p>
+
+  <p>You may not have this right now. That is fine - we are going to talk about how to build it. But the first step is admitting it is missing.</p>
+
+  <p>Because many African men walk through their entire adult lives without this and convince themselves it is fine. It is not fine. It is just normalised.</p>
+
+  <p class="section-heading">Starting Small</p>
+
+  <p>Brotherhood at this stage of life does not get rebuilt through grand gestures. It gets rebuilt through small, consistent acts of honesty.</p>
+
+  <p>It starts with one man. One relationship where you decide to go a layer deeper than usual. Where you say something real instead of something safe. Where you ask a genuine question and wait for a genuine answer.</p>
+
+  <p>It might feel awkward. It probably will. Men who have been surface-level with each other for years do not suddenly go deep without some friction. That is okay. The friction is not a sign it is not working. It is a sign it is real.</p>
+
+  <p>The brotherhood you build in this decade will carry you through the hardest things the next twenty years will bring. The health scares. The career pivots. The relationship strains. The grief. The moments where the roles all feel like they are failing at once.</p>
+
+  <p>No man handles those things better alone. No man was supposed to.</p>
+
+  <p class="chapter-end-note">Continue to Chapter 5: Recalibration, Not Reinvention</p>
+</div>
+
+<!-- CHAPTER 5 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter Five</p>
+  <h2 class="chapter-title">Recalibration,<br>Not Reinvention</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 5 CONTENT -->
+<div class="page content-page">
+  <p>There is a version of this conversation that goes a different way.</p>
+
+  <p>The version where I tell you that you need to blow up your life and start fresh. Quit the job. Leave the relationship. Move to a new city. Reinvent yourself completely. Become a whole new man.</p>
+
+  <p>That version sells well. It is dramatic and exciting and it gives the impression that transformation requires destruction.</p>
+
+  <p>I am not telling you that version. Because it is mostly wrong.</p>
+
+  <p>What most 35+ African men actually need is not reinvention. It is recalibration.</p>
+
+  <p class="section-heading">The Difference Matters</p>
+
+  <p>A reinvention says: everything you have built is wrong, start over.</p>
+
+  <p>A recalibration says: you are not broken, you are off-alignment. Small, specific adjustments will change your entire trajectory.</p>
+
+  <p>Think about a car. When your wheels are out of alignment, the car drifts. You have to grip the steering wheel harder to go straight. The tyres wear unevenly. The fuel efficiency drops. Everything takes more effort than it should. But the car is not broken - it just needs to be realigned.</p>
+
+  <p>That is you right now.</p>
+
+  <p>The work you have done, the man you have built, the relationships you have maintained, the values you have carried - none of that needs to be thrown away. What needs to happen is simpler and harder at the same time: you need to get honest about where you are out of alignment, and make the adjustments that bring you back to yourself.</p>
+
+  <p>Not a new self. Your actual self.</p>
+
+  <p class="section-heading">Three Questions Every Man in This Season Must Answer</p>
+
+  <p>There are three questions I want you to sit with honestly. Not quickly. Not with the first answer that comes to mind. With the real answer - the one that lives underneath the automatic response.</p>
+
+  <p><strong>Question 1: What am I doing that I no longer believe in?</strong></p>
+
+  <p>This could be a job that no longer fits. A habit that you maintain because it is familiar, not because it serves you. A version of yourself you perform for certain people that has nothing to do with who you actually are. A commitment you said yes to years ago that no longer reflects your values today.</p>
+
+  <p>Be honest. The things that drain you without filling you back up - where are they coming from?</p>
+
+  <p><strong>Question 2: What have I stopped doing that I know I should return to?</strong></p>
+
+  <p>Not out of nostalgia. Out of honesty. The prayer practice that anchored you. The exercise that cleared your head. The creative thing that made you feel like yourself. The quality time with people you love that got squeezed out by busyness. The learning and growth that kept you alive mentally.</p>
+
+  <p>What did you let go of that deserves to come back?</p>
+
+  <p><strong>Question 3: What do I actually want - not what I am supposed to want?</strong></p>
+
+  <p>This is the hardest one. Because you have been so busy meeting other people's expectations and fulfilling roles that were written for you that you may have lost clear sight of your own desires. Not material wants - though those count too. I mean the deeper wants. The life you would be living if you stripped away all the "should" and "supposed to" and just asked: <em>what would make me genuinely glad to be alive?</em></p>
+
+  <p>Sit with these three questions. Write down your answers if that helps. Do not perform the answers - find them.</p>
+
+  <p>They are the compass for everything that follows.</p>
+</div>
+
+<div class="page content-page">
+  <p class="section-heading">Small Moves, Not Grand Gestures</p>
+
+  <p>Recalibration does not require a dramatic announcement. It does not require you to blow up your life or cause chaos for the people who depend on you. In fact, the most effective recalibration is almost invisible from the outside.</p>
+
+  <p>It is going to sleep 45 minutes earlier because you have decided that your health matters. It is having the honest conversation with your partner about something you have been avoiding. It is saying no to one obligation that was draining you and saying yes to one thing that fills you up. It is reaching out to one man you trust and being more honest than usual about how you are actually doing.</p>
+
+  <p>These moves feel small. They are not small. Done consistently over 90 days, they shift the entire direction of a man's life. Not because of any single action - because of the accumulation of small signals you send to yourself that say: <em>I matter. My life matters. I am taking myself seriously.</em></p>
+
+  <p>That signal - once it becomes consistent - changes everything.</p>
+
+  <p class="section-heading">The Identity Underneath</p>
+
+  <p>Here is what the recalibration is ultimately trying to do: get you back to the man you were before the roles, the conditioning, the weight, and the years of running on empty covered him up.</p>
+
+  <p>He is in there. He has always been in there.</p>
+
+  <p>The curious man. The man who had opinions and passions and a specific way of seeing the world that had nothing to do with his productivity. The man who felt things and noticed things and wanted things that were just his. The man who - before the world told him what to be - already was something.</p>
+
+  <p>That man is not lost. He is waiting.</p>
+
+  <p>The recalibration is the process of finding him again. Listening to him. Making room for him inside the life you have already built.</p>
+
+  <p>Not starting over. Coming home.</p>
+
+  <p class="chapter-end-note">Continue to Chapter 6: Your Next Chapter Starts Here</p>
+</div>
+
+<!-- CHAPTER 6 OPENER -->
+<div class="page chapter-opener">
+  <p class="chapter-number">Chapter Six</p>
+  <h2 class="chapter-title">Your Next Chapter<br>Starts Here</h2>
+  <div class="gold-line"></div>
+</div>
+
+<!-- CHAPTER 6 CONTENT -->
+<div class="page content-page">
+  <p>We have covered a lot of ground together.</p>
+
+  <p>The invisible weight you carry. The roles that buried your identity. The truth about what 35 actually means. The brotherhood you deserve and may have lost. The difference between reinventing yourself and recalibrating back to yourself.</p>
+
+  <p>None of this was light reading. If you have made it here, you were ready for it.</p>
+
+  <p>Now let's talk about what comes next.</p>
+
+  <p class="section-heading">The Next 10 Years Can Look Different</p>
+
+  <p>You are standing at the beginning of the most important decade of your adult life. That is not a motivational phrase - it is a practical observation.</p>
+
+  <p>The choices you make between now and 45 will determine the quality of your health at 55. The depth of your relationships at 60. The sense of purpose you carry into your later years. The version of yourself your children and the people around you get to experience as you grow older.</p>
+
+  <p>Those outcomes are not fixed. They are being written right now - by what you do consistently, what you decide to change, what you choose to stop tolerating, and what you decide to invest in.</p>
+
+  <p>Here is what I have seen again and again in the lives of African men who made the shift: it does not take a complete overhaul. It takes an honest decision followed by consistent small action. The men who look back at 50 and say this was the best decade of their lives almost never point to one big dramatic moment. They point to a quiet turning point - a season where they started taking themselves seriously - and the years that compounded from there.</p>
+
+  <p>That turning point can be now. It can start with the chapter you just finished reading.</p>
+
+  <p class="section-heading">The Community You Need Around You</p>
+
+  <p>No man recalibrates alone. Let me be straight about that.</p>
+
+  <p>You need people around you who reflect back to you who you are trying to become - not just who you have been. That means building or finding a community of men who are on a similar path. Men who are asking the same kinds of questions. Men who take their health, their growth, and their identity seriously. Men who are done coasting and ready to be intentional.</p>
+
+  <p>This community does not have to be large. Two or three men with whom you have genuine depth is worth more than fifty surface-level connections. But the direction matters - you need to be surrounded by people whose energy and ambition pulls you forward, not anchors you to where you are.</p>
+
+  <p>If you do not have that community yet, start building it. One honest conversation at a time. One connection deepened beyond the surface. One space - physical or online - where African men at this stage of life are being spoken to directly and treated as the complex, capable, purposeful people they are.</p>
+
+  <p>That space exists. And you deserve to be in it.</p>
+
+  <p class="section-heading">One Thing to Do This Week</p>
+
+  <p>Before you close this book I want you to do one thing. Not a list. Not a 90-day plan. Just one thing - this week.</p>
+
+  <p>Answer the three questions from Chapter 5 in writing. Somewhere private, just for you. Not to share. Not to perform. Just to get honest with yourself on paper about where you are.</p>
+
+  <p>What are you doing that you no longer believe in? What have you stopped doing that you know you should return to? What do you actually want - not what you are supposed to want?</p>
+
+  <p>That is it. Everything else can follow from there.</p>
+
+  <p>The man who gets honest about where he is does not stay there for long. Because honesty creates pressure. And pressure - when it comes from the right place - creates movement.</p>
+
+  <p class="section-heading">What Comes Next in This Series</p>
+
+  <p>This book was about identity - the foundation. Everything that follows is built on top of it.</p>
+
+  <p>Book 2 in The Strong After 35 Series is about your body. We are going to talk specifically about what happens to the African male body after 35 - energy, testosterone, weight, sleep, nutrition - and what you can do about it without gimmicks, without guilt, and without pretending that our bodies and our cultural relationship with food and rest are the same as anybody else's.</p>
+
+  <p>Book 3 is about the new world - specifically, how to use AI and modern tools to work smarter, stay relevant, and build income streams that your parents could not have imagined. Not from a tech-bro perspective. From the perspective of a 35+ brother who wants to use every available tool to build a better life.</p>
+
+  <p>Each book stands alone. But together they build the full picture - identity, body, skills, money, relationships, legacy. The complete recalibration.</p>
+
+  <p>You started here. You came to the right place.</p>
+
+  <p class="section-heading">Final Word</p>
+
+  <p>Somewhere right now, a 35+ African man is waking up to a Tuesday that feels exactly like every other Tuesday. Running on empty. Carrying the weight. Asking the question underneath everything without quite saying it out loud.</p>
+
+  <p>This book was written for him. It was written for you.</p>
+
+  <p>The fact that you read it means something. It means a part of you already knows that a different version of this story is possible. That the chapter you are in right now is not the last one. That the best things you will do, build, become, and experience are not behind you.</p>
+
+  <p>They are ahead.</p>
+
+  <p>And you are exactly the right man to live them.</p>
+
+  <p class="chapter-end-note">The Strong After 35 Series continues in Book 2: Built to Last</p>
+</div>
+
+<!-- AUTHOR NOTE -->
+<div class="page content-page author-note">
+  <p class="author-note-title">A Note From the Author</p>
+
+  <p>I wrote this book because nobody wrote it for me when I needed it.</p>
+
+  <p>Not a book that spoke to me directly - as an African man, at this specific stage of life, carrying this specific weight. The self-help section is full of books written for a generic "man" who bears no resemblance to the brothers I know. The health section talks about bodies that were not built like ours, in lives that were not structured like ours. The success literature does not account for the particular journey of an African man navigating the world with everything we carry.</p>
+
+  <p>So I decided to write the book I wish existed.</p>
+
+  <p>If any part of this landed for you - if you felt seen, if a chapter made you sit still for a moment - then it did what it was supposed to do.</p>
+
+  <p>The conversation does not stop here. The community I am building is for exactly this - African men 35 and over who are done coasting and ready to live on purpose. Join us. Bring a brother who needs to hear this.</p>
+
+  <p>You deserve a full life. Not one day. Now.</p>
+
+  <br>
+  <p><strong>- Matt Okewusi</strong></p>
+  <p><em>Founder, Strongafter35afrimen</em></p>
+</div>
+
+<!-- SERIES PAGE -->
+<div class="page series-page">
+  <h2>Also in The Strong After 35 Series</h2>
+  <div style="width:100%">
+    <div class="series-book current">
+      <div class="series-book-number">BOOK 1 - NOW AVAILABLE</div>
+      <div class="series-book-title">Who You Are Now: The African Man's Recalibration at 35+</div>
+    </div>
+    <div class="series-book">
+      <div class="series-book-number">BOOK 2 - COMING SOON</div>
+      <div class="series-book-title">Built to Last: Health, Energy and Testosterone for African Men 35+</div>
+    </div>
+    <div class="series-book">
+      <div class="series-book-number">BOOK 3 - COMING SOON</div>
+      <div class="series-book-title">AI for Brothers: Using Artificial Intelligence to Work Less and Earn More</div>
+    </div>
+    <div class="series-book">
+      <div class="series-book-number">BOOK 4 - COMING SOON</div>
+      <div class="series-book-title">Money on Your Terms: Building Wealth as an African Man After 35</div>
+    </div>
+    <div class="series-book">
+      <div class="series-book-number">BOOK 5 - COMING SOON</div>
+      <div class="series-book-title">The Circle: Brotherhood, Community and Who You Keep Around You</div>
+    </div>
+    <div class="series-book">
+      <div class="series-book-number">BOOK 6 - COMING SOON</div>
+      <div class="series-book-title">What You Leave Behind: Legacy, Purpose and the Long Game</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

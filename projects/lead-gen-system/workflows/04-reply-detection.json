@@ -1,0 +1,314 @@
+{
+  "name": "04 — Reply Detection (Gmail Scanner)",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 2
+            }
+          ]
+        }
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000001",
+      "name": "Every 2 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [240, 400]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "getAll",
+        "returnAll": false,
+        "limit": 20,
+        "filters": {
+          "q": "in:inbox <!-- lead-gen-thread --> newer_than:2d"
+        },
+        "options": {
+          "format": "full"
+        }
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000002",
+      "name": "Scan Gmail for Lead Replies",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [480, 400],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-has-messages",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000003",
+      "name": "Any Replies Found?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [720, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const message = $input.item.json;\n\n// Extract sender email from headers\nconst headers = message.payload?.headers || [];\nconst fromHeader = headers.find(h => h.name === 'From');\nconst subjectHeader = headers.find(h => h.name === 'Subject');\nconst dateHeader = headers.find(h => h.name === 'Date');\n\nconst fromFull = fromHeader ? fromHeader.value : '';\nconst emailMatch = fromFull.match(/<([^>]+)>/);\nconst senderEmail = emailMatch ? emailMatch[1] : fromFull.trim();\n\nconst subject = subjectHeader ? subjectHeader.value : '';\nconst date = dateHeader ? dateHeader.value : '';\n\nreturn {\n  messageId: message.id,\n  threadId: message.threadId,\n  senderEmail: senderEmail,\n  subject: subject,\n  dateReceived: date,\n  snippet: message.snippet || ''\n};"
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000004",
+      "name": "Extract Sender Email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "YOUR_NOTION_DATABASE_ID",
+          "mode": "id"
+        },
+        "returnAll": false,
+        "limit": 1,
+        "filterType": "manual",
+        "filters": {
+          "conditions": [
+            {
+              "key": "Email|email",
+              "condition": "equals",
+              "emailValue": "={{ $json.senderEmail }}"
+            }
+          ]
+        }
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000005",
+      "name": "Find Lead in Notion by Email",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [1200, 300],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "check-lead-found",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty"
+              }
+            },
+            {
+              "id": "check-not-already-replied",
+              "leftValue": "={{ $json.properties['Status']['select']['name'] }}",
+              "rightValue": "Replied",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000006",
+      "name": "Lead Found and Not Yet Replied?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1440, 300]
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Status|select",
+              "selectValue": "Replied"
+            },
+            {
+              "key": "Reply Received|checkbox",
+              "checkboxValue": true
+            },
+            {
+              "key": "Last Contact Date|date",
+              "date": "={{ new Date().toISOString().split('T')[0] }}"
+            }
+          ]
+        }
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000007",
+      "name": "Update Notion — Mark Replied",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [1680, 200],
+      "credentials": {
+        "notionApi": {
+          "id": "NOTION_CREDENTIAL_ID",
+          "name": "Notion API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "YOUR_EMAIL",
+        "subject": "=🔔 Lead Reply: {{ $('Extract Sender Email').item.json.senderEmail }}",
+        "emailType": "text",
+        "message": "=A lead just replied to your outreach.\n\nFrom: {{ $('Extract Sender Email').item.json.senderEmail }}\nSubject: {{ $('Extract Sender Email').item.json.subject }}\nSnippet: {{ $('Extract Sender Email').item.json.snippet }}\n\nAction: Open Gmail and reply personally. Move lead to 'Qualified' in Notion when confirmed.\n\nNotion CRM: https://notion.so/YOUR_NOTION_DATABASE_ID",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "id": "d1b2c3d4-0004-0004-0004-000000000008",
+      "name": "Alert Matt via Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1920, 200],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "GMAIL_CREDENTIAL_ID",
+          "name": "Gmail OAuth2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every 2 Hours": {
+      "main": [
+        [
+          {
+            "node": "Scan Gmail for Lead Replies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scan Gmail for Lead Replies": {
+      "main": [
+        [
+          {
+            "node": "Any Replies Found?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Any Replies Found?": {
+      "main": [
+        [
+          {
+            "node": "Extract Sender Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Extract Sender Email": {
+      "main": [
+        [
+          {
+            "node": "Find Lead in Notion by Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Lead in Notion by Email": {
+      "main": [
+        [
+          {
+            "node": "Lead Found and Not Yet Replied?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Found and Not Yet Replied?": {
+      "main": [
+        [
+          {
+            "node": "Update Notion — Mark Replied",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Update Notion — Mark Replied": {
+      "main": [
+        [
+          {
+            "node": "Alert Matt via Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": ""
+  },
+  "tags": [
+    {
+      "name": "lead-gen",
+      "createdAt": "2026-05-20T00:00:00.000Z",
+      "updatedAt": "2026-05-20T00:00:00.000Z"
+    }
+  ]
+}

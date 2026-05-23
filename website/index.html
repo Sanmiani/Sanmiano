@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strong After 35 — For African Men</title>
+  <meta name="description" content="A brotherhood community for African men 35+ focused on health, AI, and modern opportunities. Built different. Live longer. Lead stronger.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Hero ── */
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 24px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,175,55,0.08) 0%, transparent 70%);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 79px,
+        rgba(212,175,55,0.04) 79px,
+        rgba(212,175,55,0.04) 80px
+      );
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 28px;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 30px;
+      height: 2px;
+      background: var(--gold);
+    }
+
+    .hero h1 {
+      font-family: 'Arial Black', 'Impact', sans-serif;
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 span { color: var(--gold); }
+
+    .hero-sub {
+      font-size: clamp(17px, 2.5vw, 22px);
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 44px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 64px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding-top: 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .stat-item .num {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .stat-item .label {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Mission ── */
+    .mission { background: var(--bg2); }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .mission-text h2 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .mission-text h2 span { color: var(--gold); }
+
+    .mission-text p {
+      color: rgba(255,255,255,0.7);
+      font-size: 17px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .mission-quote {
+      background: var(--bg3);
+      border-left: 4px solid var(--gold);
+      padding: 28px 32px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      font-family: 'Georgia', serif;
+      font-size: 20px;
+      font-style: italic;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+    }
+
+    .mission-quote cite {
+      display: block;
+      margin-top: 16px;
+      font-style: normal;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── Pillars ── */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .pillar-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      transition: border-color 0.25s, transform 0.2s;
+    }
+
+    .pillar-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+
+    .pillar-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .pillar-card h3 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .pillar-card p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── Posts preview ── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    .post-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .post-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+    .post-thumb {
+      height: 180px;
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+    }
+
+    .post-body { padding: 24px; }
+
+    .post-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .post-body h4 {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .post-body p { font-size: 13px; color: var(--muted); }
+
+    .posts-cta { text-align: center; margin-top: 40px; }
+
+    /* ── Join section ── */
+    .join { background: var(--bg2); }
+
+    .join-inner { text-align: center; max-width: 640px; margin: 0 auto; }
+
+    .join h2 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .join h2 span { color: var(--gold); }
+
+    .join p { color: var(--muted); font-size: 18px; margin-bottom: 40px; }
+
+    .join-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .join-option {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: pointer;
+    }
+
+    .join-option:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+    .join-option .icon { font-size: 28px; margin-bottom: 12px; }
+
+    .join-option h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+
+    .join-option p { font-size: 12px; color: var(--muted); margin: 0; }
+
+    .email-form {
+      display: flex;
+      gap: 10px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .email-form input {
+      flex: 1;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: var(--white);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .email-form input:focus { border-color: var(--gold); }
+
+    .email-form input::placeholder { color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .mission-grid { grid-template-columns: 1fr; gap: 40px; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .posts-grid   { grid-template-columns: 1fr; }
+      .join-options { grid-template-columns: 1fr; }
+      .email-form   { flex-direction: column; }
+      .hero-stats   { gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-main">Strong After 35</span>
+      <span class="logo-sub">For African Men</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Articles</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="#join" class="nav-cta">Join the Brotherhood</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">For African Men 35+</div>
+    <h1>Built Different.<br><span>Live Longer.</span><br>Lead Stronger.</h1>
+    <p class="hero-sub">
+      A brotherhood community where African men 35+ get real talk on health, AI tools, and modern opportunities — no corporate wellness nonsense.
+    </p>
+    <div class="hero-ctas">
+      <a href="#join" class="btn btn-gold">Join the Brotherhood</a>
+      <a href="about.html" class="btn btn-outline">Our Mission</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="num">35+</div>
+        <div class="label">The Brotherhood Age</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">3×</div>
+        <div class="label">Weekly Content</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">1 in 3</div>
+        <div class="label">Black Men Has High BP</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">0</div>
+        <div class="label">Corporate Wellness Talk</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Mission ── -->
+<section class="mission">
+  <div class="container">
+    <div class="mission-grid">
+      <div class="mission-text">
+        <span class="section-label">Why We Exist</span>
+        <h2>Brothers need to<br>hear <span>the truth.</span></h2>
+        <div class="gold-rule"></div>
+        <p>
+          Too many African men 35+ are showing up to everything except their own health. We're building careers, raising families, and leading communities — while quietly neglecting the body that makes all of it possible.
+        </p>
+        <p>
+          Strong After 35 is where we change that. Real data. Real talk. A community of brothers who hold each other accountable.
+        </p>
+        <a href="about.html" class="btn btn-outline" style="margin-top:8px;">Read Our Story</a>
+      </div>
+      <div>
+        <blockquote class="mission-quote">
+          "The most revolutionary thing an African man can do in 2025 is take care of himself — and help his brother do the same."
+          <cite>— The Strong After 35 Manifesto</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pillars ── -->
+<section>
+  <div class="container">
+    <div style="text-align:center;">
+      <span class="section-label">What We Cover</span>
+      <h2 style="font-family:'Arial Black',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:900;line-height:1.1;">
+        Three pillars.<br>One brotherhood.
+      </h2>
+      <div class="gold-rule center"></div>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <span class="pillar-icon">💪</span>
+        <h3>Health</h3>
+        <p>Blood pressure. Heart health. Mental wellness. Sleep. The numbers that matter after 35 — explained in plain language, not medical jargon.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🤖</span>
+        <h3>AI & Tools</h3>
+        <p>The AI tools that give you back hours every week. How to use them practically — for work, for business, for life. No hype. Just what works.</p>
+      </div>
+      <div class="pillar-card">
+        <span class="pillar-icon">🤝</span>
+        <h3>Brotherhood</h3>
+        <p>A community where African men 35+ are seen, heard, and challenged to grow. Accountability, shared wins, and real conversations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Latest Posts ── -->
+<section style="background:var(--bg2);">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
+      <div>
+        <span class="section-label">Latest Articles</span>
+        <h2 style="font-family:'Arial Black',sans-serif;font-size:clamp(28px,4vw,40px);font-weight:900;">Fresh from the feed</h2>
+      </div>
+      <a href="blog.html" class="btn btn-outline">All Articles</a>
+    </div>
+    <div class="posts-grid">
+      <a href="blog.html" class="post-card">
+        <div class="post-thumb">❤️</div>
+        <div class="post-body">
+          <div class="post-tag">Health</div>
+          <h4>1 in 3 Black Men Has High Blood Pressure. Here's What to Do About It.</h4>
+          <p>The numbers, the reasons, and the 3 things your doctor won't tell you.</p>
+        </div>
+      </a>
+      <a href="blog.html" class="post-card">
+        <div class="post-thumb">🤖</div>
+        <div class="post-body">
+          <div class="post-tag">AI Tools</div>
+          <h4>5 AI Tools That Gave Me Back 10 Hours a Week</h4>
+          <p>Real tools. Real results. No subscription required for most of them.</p>
+        </div>
+      </a>
+      <a href="blog.html" class="post-card">
+        <div class="post-thumb">🤝</div>
+        <div class="post-body">
+          <div class="post-tag">Brotherhood</div>
+          <h4>Why African Men Don't Talk About Their Health (And How We Change That)</h4>
+          <p>The cultural silence around men's health — and why this community exists.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Join ── -->
+<section class="join" id="join">
+  <div class="container">
+    <div class="join-inner">
+      <span class="section-label">Join the Brotherhood</span>
+      <h2>Be part of<br>something <span>real.</span></h2>
+      <p>Choose how you want to connect. We're active across platforms — pick what works for you.</p>
+
+      <div class="join-options">
+        <a href="https://instagram.com/strongafter35afrimen" target="_blank" class="join-option">
+          <div class="icon">📸</div>
+          <h4>Instagram</h4>
+          <p>Daily Reels & health content</p>
+        </a>
+        <a href="https://wa.me/14168794145" target="_blank" class="join-option">
+          <div class="icon">💬</div>
+          <h4>WhatsApp</h4>
+          <p>Community group — brothers only</p>
+        </a>
+        <a href="https://t.me/Sanmiano" target="_blank" class="join-option">
+          <div class="icon">✈️</div>
+          <h4>Telegram</h4>
+          <p>Channel updates & resources</p>
+        </a>
+      </div>
+
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px;">Or get weekly content straight to your inbox:</p>
+      <form class="email-form" onsubmit="handleSubmit(event)">
+        <input type="email" placeholder="your@email.com" required>
+        <button type="submit" class="btn btn-gold">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-main">Strong After 35</div>
+      <p>For African men 35+ who refuse to slow down. Health, AI, and brotherhood — all in one place.</p>
+      <div class="social-row" style="margin-top:16px;">
+        <a href="https://instagram.com/strongafter35afrimen" target="_blank" class="social-pill">📸 Instagram</a>
+        <a href="https://linkedin.com" target="_blank" class="social-pill">💼 LinkedIn</a>
+        <a href="https://facebook.com/Strongafter35afrimen" target="_blank" class="social-pill">👥 Facebook</a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Articles</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://instagram.com/strongafter35afrimen" target="_blank">Instagram</a></li>
+        <li><a href="https://wa.me/14168794145" target="_blank">WhatsApp Group</a></li>
+        <li><a href="https://t.me/Sanmiano" target="_blank">Telegram Channel</a></li>
+        <li><a href="contact.html">Get in Touch</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Strong After 35. Built for the brotherhood.</span>
+    <span>For African Men 35+</span>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    const input = e.target.querySelector('input');
+    alert(`Thanks brother! We'll be in touch at ${input.value}`);
+    input.value = '';
+  }
+</script>
+
+</body>
+</html>

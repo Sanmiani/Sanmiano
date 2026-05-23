@@ -1,0 +1,79 @@
+# DigitalOcean App Platform spec — Pharma RX Manager
+# PHIPA requirement: region must be tor1 (Toronto). Do not change.
+#
+# Before using this file:
+#   1. Replace OWNER/REPO with your actual GitHub repo (e.g. johndoe/pharma-rx-manager)
+#   2. Provision a Managed PostgreSQL cluster in tor1 via the DO console or doctl
+#   3. Set all SECRET env vars in the App Platform dashboard after first deploy
+#   4. Update FRONTEND_URL and EMAIL_FROM to match your domain
+#
+# Deploy via DO CLI:
+#   doctl apps create --spec app.yaml
+
+name: pharma-rx-manager
+region: tor1
+
+services:
+  - name: backend
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: OWNER/REPO  # replace with e.g. johndoe/pharma-rx-manager
+    source_dir: backend
+    build_command: npm ci && npm run build
+    run_command: npx prisma migrate deploy && node dist/server.js
+    environment_slug: node-js
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    http_port: 8080
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 30
+      failure_threshold: 3
+    envs:
+      # Set these as secrets in the App Platform dashboard — do not commit real values here
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET
+        # Use the connection string from your DO Managed PostgreSQL cluster
+        # Must include ?sslmode=require for managed databases
+      - key: JWT_ACCESS_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        # Generate: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+      - key: JWT_REFRESH_SECRET
+        scope: RUN_TIME
+        type: SECRET
+        # Generate: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+      - key: RESEND_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+        # From resend.com dashboard — verify your sending domain first
+      - key: NODE_ENV
+        scope: RUN_TIME
+        value: production
+      - key: PORT
+        scope: RUN_TIME
+        value: "8080"
+      - key: FRONTEND_URL
+        scope: RUN_TIME
+        value: https://app.pharmacyname.ca  # update to your domain
+      - key: EMAIL_FROM
+        scope: RUN_TIME
+        value: reminders@pharmacyname.ca  # must match your verified Resend domain
+
+static_sites:
+  - name: frontend
+    github:
+      branch: main
+      deploy_on_push: true
+      repo: OWNER/REPO  # replace with e.g. johndoe/pharma-rx-manager
+    source_dir: frontend
+    build_command: npm ci && npm run build
+    output_dir: dist
+    envs:
+      - key: VITE_API_URL
+        scope: BUILD_TIME
+        value: ${backend.PUBLIC_URL}
+        # App Platform resolves this to the backend service's public URL at build time

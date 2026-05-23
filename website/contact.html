@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Strong After 35</title>
+  <meta name="description" content="Connect with the Strong After 35 brotherhood. Find us on Instagram, WhatsApp, Telegram, LinkedIn, and Facebook.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .page-hero {
+      padding: 100px 24px 64px;
+      background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(212,175,55,0.07) 0%, transparent 70%);
+      text-align: center;
+    }
+
+    .page-hero h1 {
+      font-family: 'Arial Black', 'Impact', sans-serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .page-hero h1 span { color: var(--gold); }
+
+    .page-hero p { font-size: 18px; color: var(--muted); max-width: 420px; margin: 0 auto; }
+
+    /* Platform cards */
+    .platforms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+
+    .platform-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .platform-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+
+    .platform-icon { font-size: 40px; margin-bottom: 16px; }
+
+    .platform-card h3 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .platform-card p { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+
+    /* Contact form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      color: var(--white);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--gold); }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--muted); }
+
+    .form-group select option { background: var(--bg2); }
+
+    textarea { min-height: 140px; }
+
+    /* Info panel */
+    .info-panel h3 {
+      font-family: 'Arial Black', sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .info-panel h3 span { color: var(--gold); }
+
+    .info-panel p { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 32px; }
+
+    .info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .info-item:last-child { border-bottom: none; }
+
+    .info-item .icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+
+    .info-item h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+
+    .info-item p { font-size: 13px; color: var(--muted); margin: 0; }
+
+    .info-item a { color: var(--gold); }
+
+    @media (max-width: 768px) {
+      .platforms-grid { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-main">Strong After 35</span>
+      <span class="logo-sub">For African Men</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="blog.html">Articles</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="index.html#join" class="nav-cta">Join the Brotherhood</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <span class="section-label">Get Connected</span>
+  <h1>Find the<br><span>Brotherhood</span></h1>
+  <div class="gold-rule center" style="margin:20px auto 24px;"></div>
+  <p>We're active across platforms. Pick the one that works for you.</p>
+</div>
+
+<section>
+  <div class="container">
+
+    <!-- Platforms -->
+    <div class="platforms-grid">
+      <a href="https://instagram.com/strongafter35afrimen" target="_blank" class="platform-card">
+        <div class="platform-icon">📸</div>
+        <h3>Instagram</h3>
+        <p>Daily Reels, health stats, and AI content drops. Our most active platform.</p>
+        <span class="btn btn-gold">Follow @strongafter35afrimen</span>
+      </a>
+      <a href="https://wa.me/14168794145" target="_blank" class="platform-card">
+        <div class="platform-icon">💬</div>
+        <h3>WhatsApp</h3>
+        <p>Private community group. Brothers only. Real conversations, real accountability.</p>
+        <span class="btn btn-outline">Join the Group</span>
+      </a>
+      <a href="https://t.me/Sanmiano" target="_blank" class="platform-card">
+        <div class="platform-icon">✈️</div>
+        <h3>Telegram</h3>
+        <p>Weekly broadcasts, health tips, and resource drops. Stay in the loop.</p>
+        <span class="btn btn-outline" style="margin-bottom:10px;">Follow @Sanmiano</span>
+        <a href="https://t.me/Strongafter25bot" target="_blank" class="btn btn-dark" style="font-size:12px;">Start the Bot</a>
+      </a>
+      <a href="https://facebook.com/Strongafter35afrimen" target="_blank" class="platform-card">
+        <div class="platform-icon">👥</div>
+        <h3>Facebook</h3>
+        <p>Community posts and discussions on our Facebook Page. Share with your network.</p>
+        <span class="btn btn-outline">Follow @Strongafter35afrimen</span>
+      </a>
+      <a href="https://linkedin.com" target="_blank" class="platform-card">
+        <div class="platform-icon">💼</div>
+        <h3>LinkedIn</h3>
+        <p>Professional insights on AI tools and career growth for men 35+.</p>
+        <span class="btn btn-outline">Connect</span>
+      </a>
+      <a href="mailto:mattsanmiano@gmail.com" class="platform-card">
+        <div class="platform-icon">✉️</div>
+        <h3>Email</h3>
+        <p>Partnerships, collaborations, media inquiries. We read every email.</p>
+        <span class="btn btn-outline">Send a Message</span>
+      </a>
+    </div>
+
+    <!-- Contact Form + Info -->
+    <div class="contact-grid">
+      <div>
+        <span class="section-label">Send a Message</span>
+        <h2 style="font-family:'Arial Black',sans-serif;font-size:clamp(26px,4vw,36px);font-weight:900;margin-bottom:8px;">Got something<br>to say?</h2>
+        <div class="gold-rule" style="margin-bottom:28px;"></div>
+        <form onsubmit="handleSubmit(event)">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Brother's name" required>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <select>
+              <option value="">Select a topic...</option>
+              <option>Community / Membership</option>
+              <option>Collaboration / Partnership</option>
+              <option>Content Suggestion</option>
+              <option>Media Inquiry</option>
+              <option>General Question</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Say what's on your mind, brother."></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold" style="width:100%;">Send Message</button>
+        </form>
+      </div>
+
+      <div class="info-panel">
+        <span class="section-label">Quick Info</span>
+        <h3>We're here for<br><span>the brotherhood.</span></h3>
+        <p>Whether you have a question, want to collaborate, or just want to connect — reach out. We respond to every message.</p>
+        <div class="info-item">
+          <span class="icon">📍</span>
+          <div>
+            <h4>Based In</h4>
+            <p>Toronto, Canada</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">✉️</span>
+          <div>
+            <h4>Email</h4>
+            <p><a href="mailto:mattsanmiano@gmail.com">mattsanmiano@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">📸</span>
+          <div>
+            <h4>Instagram</h4>
+            <p><a href="https://instagram.com/strongafter35afrimen" target="_blank">@strongafter35afrimen</a></p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🕐</span>
+          <div>
+            <h4>Response Time</h4>
+            <p>Usually within 24–48 hours</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <span class="icon">🤝</span>
+          <div>
+            <h4>Open To</h4>
+            <p>Collaborations, guest content, health brand partnerships aligned with the community mission</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-main">Strong After 35</div>
+      <p>For African men 35+ who refuse to slow down.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Pages</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blog.html">Articles</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="https://instagram.com/strongafter35afrimen" target="_blank">Instagram</a></li>
+        <li><a href="https://wa.me/14168794145" target="_blank">WhatsApp</a></li>
+        <li><a href="https://t.me/Sanmiano" target="_blank">Telegram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Strong After 35. Built for the brotherhood.</span>
+    <span>For African Men 35+</span>
+  </div>
+</footer>
+
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    alert("Message received, brother. We'll be in touch soon.");
+    e.target.reset();
+  }
+</script>
+
+</body>
+</html>

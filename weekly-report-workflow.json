@@ -1,0 +1,270 @@
+{
+  "name": "Weekly Report Executive Summary",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1"
+            }
+          ]
+        }
+      },
+      "id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "name": "Every Monday 7am",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Weekly Reports",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "a9f8b7c6-d5e4-4321-b098-76543210fedc",
+      "name": "Read Weekly Reports Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [460, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst now = new Date();\nconst sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);\n\nif (!items || items.length === 0) {\n  return [{\n    json: {\n      hasReports: false,\n      reportText: '',\n      count: 0,\n      colleagues: '',\n      weekStart: sevenDaysAgo.toDateString(),\n      weekEnd: now.toDateString()\n    }\n  }];\n}\n\nconst recentReports = items.filter(item => {\n  const dateValue = item.json['Date'];\n  if (!dateValue) return false;\n  const reportDate = new Date(dateValue);\n  return !isNaN(reportDate.getTime()) && reportDate >= sevenDaysAgo;\n});\n\nif (recentReports.length === 0) {\n  return [{\n    json: {\n      hasReports: false,\n      reportText: '',\n      count: 0,\n      colleagues: '',\n      weekStart: sevenDaysAgo.toDateString(),\n      weekEnd: now.toDateString()\n    }\n  }];\n}\n\nconst reportText = recentReports.map((item, index) => {\n  const name    = item.json['Name']           || 'Unknown';\n  const date    = item.json['Date']           || 'N/A';\n  const content = item.json['Report Content'] || 'No content provided';\n  return `REPORT ${index + 1}\\n${'='.repeat(40)}\\nColleague: ${name}\\nDate Submitted: ${date}\\n\\n${content}`;\n}).join('\\n\\n');\n\nreturn [{\n  json: {\n    hasReports: true,\n    reportText,\n    count: recentReports.length,\n    colleagues: recentReports.map(i => i.json['Name'] || 'Unknown').join(', '),\n    weekStart: sevenDaysAgo.toDateString(),\n    weekEnd: now.toDateString()\n  }\n}];"
+      },
+      "id": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+      "name": "Filter and Format Reports",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $json.hasReports }}",
+              "value2": true
+            }
+          ]
+        }
+      },
+      "id": "c3d4e5f6-a7b8-9012-cdef-123456789012",
+      "name": "Has Reports This Week",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "resource": "text",
+        "operation": "message",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "prompt": "=You are an executive assistant who writes concise, professional executive summaries for senior leadership.\n\nWrite a single cohesive executive summary paragraph (200-300 words) based on the weekly reports submitted by team members below.\n\nYour summary must:\n- Capture the key accomplishments and progress made during the week\n- Highlight any blockers, risks, or concerns raised\n- Reflect the overall team status and momentum\n- Be written in a professional, neutral tone suitable for a senior executive\n- Synthesise all reports into ONE flowing paragraph — do NOT list reports individually\n\nContext:\nWeek covered: {{ $json.weekStart }} to {{ $json.weekEnd }}\nReports submitted by: {{ $json.colleagues }}\nTotal reports received: {{ $json.count }}\n\n===== TEAM REPORTS =====\n{{ $json.reportText }}\n========================\n\nWrite the executive summary paragraph now:"
+      },
+      "id": "d4e5f6a7-b8c9-0123-defa-234567890123",
+      "name": "Generate Executive Summary",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.4,
+      "position": [1120, 160],
+      "credentials": {
+        "openAiApi": {
+          "id": "",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "assign-001",
+              "name": "summary",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-002",
+              "name": "weekStart",
+              "value": "={{ $('Filter and Format Reports').item.json.weekStart }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-003",
+              "name": "weekEnd",
+              "value": "={{ $('Filter and Format Reports').item.json.weekEnd }}",
+              "type": "string"
+            },
+            {
+              "id": "assign-004",
+              "name": "count",
+              "value": "={{ $('Filter and Format Reports').item.json.count }}",
+              "type": "number"
+            },
+            {
+              "id": "assign-005",
+              "name": "colleagues",
+              "value": "={{ $('Filter and Format Reports').item.json.colleagues }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e1e2e3e4-f5f6-7890-abcd-ef1234567890",
+      "name": "Prepare Email Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [1340, 160]
+    },
+    {
+      "parameters": {
+        "sendTo": "mattsanmiano@gmail.com",
+        "subject": "Weekly Report",
+        "emailType": "html",
+        "message": "=<html>\n<body style=\"font-family: Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 20px; background-color: #f4f4f8; color: #2c2c2c;\">\n\n  <div style=\"background-color: #1a1a2e; color: white; padding: 28px 32px; border-radius: 10px 10px 0 0;\">\n    <h1 style=\"margin: 0; font-size: 22px; font-weight: 700;\">Weekly Executive Summary</h1>\n    <p style=\"margin: 8px 0 0; color: #9aa8d4; font-size: 13px;\">Auto-generated every Monday at 7:00 AM</p>\n  </div>\n\n  <div style=\"background-color: #ffffff; border-left: 1px solid #ddd; border-right: 1px solid #ddd; padding: 18px 32px;\">\n    <table style=\"width: 100%; font-size: 14px; color: #555; border-collapse: collapse;\">\n      <tr>\n        <td style=\"padding: 5px 0; width: 160px;\"><strong>Week Covered:</strong></td>\n        <td>{{ $json.weekStart }} to {{ $json.weekEnd }}</td>\n      </tr>\n      <tr>\n        <td style=\"padding: 5px 0;\"><strong>Reports Received:</strong></td>\n        <td>{{ $json.count }}</td>\n      </tr>\n      <tr>\n        <td style=\"padding: 5px 0;\"><strong>Submitted By:</strong></td>\n        <td>{{ $json.colleagues }}</td>\n      </tr>\n    </table>\n  </div>\n\n  <div style=\"background-color: #ffffff; border: 1px solid #ddd; border-top: none; padding: 28px 32px;\">\n    <h2 style=\"color: #1a1a2e; font-size: 16px; margin-top: 0; border-bottom: 2px solid #4a4e69; padding-bottom: 10px;\">Executive Summary</h2>\n    <p style=\"line-height: 1.9; font-size: 15px; color: #2c2c2c; margin: 0;\">{{ $json.summary }}</p>\n  </div>\n\n  <div style=\"background-color: #f0f0f8; border: 1px solid #ddd; border-top: none; padding: 14px 32px; border-radius: 0 0 10px 10px;\">\n    <p style=\"margin: 0; font-size: 12px; color: #aaa;\">Generated from your Google Sheet (Tab: Weekly Reports) via n8n and OpenAI GPT-4o</p>\n  </div>\n\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "e5f6a7b8-c9d0-1234-efab-345678901234",
+      "name": "Send Weekly Report Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1560, 160],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "mattsanmiano@gmail.com",
+        "subject": "Weekly Report - No Submissions Found This Week",
+        "emailType": "html",
+        "message": "=<html>\n<body style=\"font-family: Arial, sans-serif; max-width: 680px; margin: 0 auto; padding: 20px; background-color: #f4f4f8; color: #2c2c2c;\">\n\n  <div style=\"background-color: #922b21; color: white; padding: 28px 32px; border-radius: 10px 10px 0 0;\">\n    <h1 style=\"margin: 0; font-size: 22px; font-weight: 700;\">Weekly Report - No Submissions</h1>\n    <p style=\"margin: 8px 0 0; color: #f1948a; font-size: 13px;\">Auto-generated Monday at 7:00 AM</p>\n  </div>\n\n  <div style=\"background-color: #ffffff; border: 1px solid #ddd; border-top: none; padding: 28px 32px; border-radius: 0 0 10px 10px;\">\n    <p style=\"line-height: 1.8; font-size: 15px;\">Hi Matt,</p>\n    <p style=\"line-height: 1.8; font-size: 15px;\">The weekly report workflow ran this morning but found <strong>no reports submitted in the last 7 days</strong> in the Weekly Reports tab of your Google Sheet.</p>\n    <p style=\"line-height: 1.8; font-size: 15px;\">You may want to follow up with your colleagues to ensure their reports are submitted before the Monday deadline.</p>\n    <hr style=\"border: none; border-top: 1px solid #eee; margin: 20px 0;\">\n    <p style=\"color: #aaa; font-size: 12px; margin: 0;\">Automated notification. No action needed if no submissions were expected this week.</p>\n  </div>\n\n</body>\n</html>",
+        "options": {}
+      },
+      "id": "f6a7b8c9-d0e1-2345-fabc-456789012345",
+      "name": "No Reports Notification",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [1120, 460],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every Monday 7am": {
+      "main": [
+        [
+          {
+            "node": "Read Weekly Reports Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Weekly Reports Sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter and Format Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter and Format Reports": {
+      "main": [
+        [
+          {
+            "node": "Has Reports This Week",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Reports This Week": {
+      "main": [
+        [
+          {
+            "node": "Generate Executive Summary",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Reports Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Executive Summary": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Data": {
+      "main": [
+        [
+          {
+            "node": "Send Weekly Report Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": ""
+  },
+  "id": "weekly-report-executive-summary",
+  "tags": []
+}
