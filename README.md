@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AIS-OS — AI Operating System starter kit for Claude Code
 
 A free, MIT-licensed starter kit that turns Claude Code into your personal **AI Operating System (AIOS)**. Audience: anyone building automations — solopreneurs, small business operators, managers, creators, AI consultants. Pairs with a companion masterclass video.
@@ -131,3 +132,7 @@ MIT License. © 2026 Nate Herk.
 The Three Ms of AI™ and The Four Cs of an AIOS™ are trademarks of Nate Herk. Both frameworks ship in this repo with attribution. Use freely; don't repackage as your own.
 
 The companion masterclass video walks you through the kit step by step. Link will land here once it ships.
+=======
+# Sanmiano
+Let work together to make great things
+>>>>>>> 5b2b701a779b981f328db2a50c2a4b81865d027f
